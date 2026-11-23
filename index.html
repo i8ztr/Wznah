@@ -946,7 +946,8 @@ button{
 
 .chat-area{
   flex:1;
-  overflow-y:auto;
+  min-height:0;
+  overflow-y:auto !important;
   padding:12px 18px 10px;
   scrollbar-width:none;
 }
@@ -1197,7 +1198,27 @@ dialog::backdrop{
   }
 }
 
-#home .page{min-height:0;overflow:hidden}#home .home-scroll{min-height:0;overflow:hidden}#home .envelopes{overflow:hidden;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}#home .envelope{min-width:0}#home .envelope:nth-child(n+4){display:none}@media(max-height:720px){#home .home-scroll{padding-top:5px;padding-bottom:6px}#home .safe-card{padding:14px}#home .safe-number{font-size:30px}#home .insight{margin-top:6px;padding:9px 11px}#home .home-grid{margin-top:6px;gap:7px}#home .mini-card{min-height:68px;padding:10px}#home .section-head{margin-top:7px;margin-bottom:5px}#home .ask-card{margin-top:6px;padding:10px 12px}}@media(max-height:620px){#home .insight{display:none}#home .score-card{padding:8px}#home .goal-mini{padding:9px 11px}#home .page{padding-bottom:70px}#home .bottom-nav{height:70px}}
+/* V23: scrolling policy — Home is fixed, every inner app page scrolls naturally */
+.screen:not(#home):not(#onboarding){
+  overflow:hidden;
+}
+.screen:not(#home):not(#onboarding) .page{
+  min-height:0;
+  overflow:hidden;
+}
+.scroll-area{
+  min-height:0;
+  overflow-y:auto !important;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  overscroll-behavior-y:contain;
+}
+#home .page{min-height:0;overflow:hidden}
+#home .home-scroll{min-height:0;overflow:hidden}
+#home .envelopes{overflow:hidden;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#home .envelope{min-width:0}
+#home .envelope:nth-child(n+4){display:none}@media(max-height:720px){#home .home-scroll{padding-top:5px;padding-bottom:6px}#home .safe-card{padding:14px}#home .safe-number{font-size:30px}#home .insight{margin-top:6px;padding:9px 11px}#home .home-grid{margin-top:6px;gap:7px}#home .mini-card{min-height:68px;padding:10px}#home .section-head{margin-top:7px;margin-bottom:5px}#home .ask-card{margin-top:6px;padding:10px 12px}}@media(max-height:620px){#home .insight{display:none}#home .score-card{padding:8px}#home .goal-mini{padding:9px 11px}#home .page{padding-bottom:70px}#home .bottom-nav{height:70px}}
 .saving-wallet{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.saved-balance{font-size:24px;font-weight:950;margin-top:4px}
 </style>
 </head>
@@ -4848,6 +4869,11 @@ document.addEventListener("click",event=>{
 
   if(action==="assistant"){
     openAssistant();
+    return;
+  }
+
+  if(action==="send-chat"){
+    sendChat();
     return;
   }
 
