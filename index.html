@@ -4,13 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0b10">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="وِزنة">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#0b0b10">
-<title>وِزنة</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>وِزنة — مساعدك المالي | V16</title>
+  <title>وِزنة — مساعدك المالي</title>
 
 <style>
 :root{
@@ -72,6 +71,43 @@ button{
 /* =========================
    COMMON
 ========================= */
+
+/* =========================
+   WIZNAH DAILY COACH
+========================= */
+.daily-coach{
+  position:relative;
+  overflow:hidden;
+  padding:16px;
+  margin-top:10px;
+  border:1px solid rgba(139,92,246,.18);
+  background:linear-gradient(145deg,rgba(139,92,246,.14),rgba(18,18,24,.98) 55%);
+}
+.daily-coach::after{
+  content:"";position:absolute;inset:-60px -80px auto auto;width:150px;height:150px;
+  background:radial-gradient(circle,rgba(167,139,250,.22),transparent 68%);
+  pointer-events:none;
+}
+.daily-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative;z-index:1}
+.daily-kicker{font-size:11px;color:var(--muted);font-weight:800}
+.daily-value{font-size:32px;font-weight:950;letter-spacing:-1px;margin-top:2px}
+.daily-value small{font-size:12px;color:var(--muted);font-weight:800}
+.daily-status{padding:7px 10px;border-radius:999px;background:rgba(53,211,153,.11);color:var(--green);font-size:11px;font-weight:900;white-space:nowrap}
+.daily-status.warn{background:rgba(251,191,36,.11);color:var(--yellow)}
+.daily-status.bad{background:rgba(251,113,133,.11);color:var(--red)}
+.daily-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;position:relative;z-index:1}
+.daily-stat{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:9px 10px}
+.daily-stat span{display:block;color:var(--muted);font-size:10px;margin-bottom:3px}
+.daily-stat strong{font-size:14px}
+.daily-progress{height:7px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:12px;position:relative;z-index:1}
+.daily-progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--purple2));transition:width .7s ease}
+.daily-note{font-size:11px;color:var(--muted);line-height:1.6;margin-top:9px;position:relative;z-index:1}
+.daily-actions{display:flex;gap:8px;margin-top:12px;position:relative;z-index:1}
+.daily-buy{flex:1;min-height:40px;border-radius:13px;background:white;color:#111;font-weight:900}
+.daily-ask{min-height:40px;padding:0 13px;border-radius:13px;background:rgba(139,92,246,.16);color:#ddd2ff;font-weight:900}
+@keyframes wiznahPulse{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,0)}50%{box-shadow:0 0 0 7px rgba(139,92,246,.06)}}
+.daily-coach{animation:wiznahPulse 4s ease-in-out infinite}
+
 
 .hidden{
   display:none!important;
@@ -1178,93 +1214,13 @@ dialog::backdrop{
    RESPONSIVE
 ========================= */
 
-/* V14 HOME FIT: home is intentionally one-screen; inner pages can scroll. */
-#home .page{
-  min-height:0;
-  overflow:hidden;
-}
-#home .home-scroll{
-  min-height:0;
-  overflow:hidden;
-  padding:6px 14px 8px;
-  display:flex;
-  flex-direction:column;
-  gap:0;
-}
-#home .greeting{margin-bottom:6px;min-height:38px}
-#home .greeting-name{font-size:18px}
-#home .home-settings{width:36px;height:36px;border-radius:13px}
-#home .safe-card{padding:12px 14px;border-radius:19px}
-#home .safe-number{font-size:28px;line-height:1.05;margin-top:2px}
-#home .safe-meta{margin-top:6px;gap:6px}
-#home .pill{padding:5px 8px;font-size:10px}
-#home .insight{margin-top:7px;padding:7px 9px;gap:7px}
-#home .insight-icon{font-size:16px}
-#home .insight-text{font-size:10px;line-height:1.35}
-#home .home-grid{margin-top:6px;gap:7px}
-#home .mini-card{min-height:56px;padding:8px 11px;border-radius:15px}
-#home .mini-title{font-size:9px}
-#home .mini-value{font-size:17px;margin-top:2px}
-#home .score-card{margin-top:6px!important;padding:8px 11px;gap:9px;min-height:52px;border-radius:15px}
-#home .score-ring{width:45px;height:45px}
-#home .score-ring::after{inset:5px}
-#home .score-ring span{font-size:12px}
-#home .score-info strong{font-size:12px}
-#home .score-info p{font-size:9px;margin-top:1px;line-height:1.3}
-#home .section-head{margin:6px 1px 4px;min-height:18px}
-#home .section-head strong{font-size:11px}
-#home .link-btn{font-size:9px}
-#home .envelopes{gap:6px;overflow:hidden}
-#home .envelope{min-width:0;flex:1;padding:8px;border-radius:15px}
-#home .env-icon{font-size:15px}
-#home .env-name{font-size:9px;max-width:55px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#home .env-money{font-size:13px;margin-top:5px}
-#home .progress{height:4px;margin-top:5px}
-#home .goal-mini{padding:7px 9px;gap:8px;border-radius:15px;min-height:49px}
-#home .goal-icon{width:34px;height:34px;border-radius:11px;font-size:17px}
-#home .goal-name{font-size:10px}
-#home .goal-text{font-size:8px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#home .plan-percent{font-size:10px}
-#home .ask-card{margin-top:6px;padding:8px 10px;border-radius:15px;min-height:48px}
-#home .ask-icon{width:34px;height:34px;border-radius:11px;font-size:17px}
-#home .ask-info strong{font-size:11px}
-#home .ask-info p{font-size:8px;margin-top:2px}
-#home .arrow{font-size:13px}
-
 @media(max-height:700px){
-  #home .home-scroll{padding-top:4px;padding-bottom:5px}
-  #home .greeting{margin-bottom:4px;min-height:34px}
-  #home .greeting-small{font-size:9px}
-  #home .greeting-name{font-size:16px}
-  #home .home-settings{width:32px;height:32px}
-  #home .safe-card{padding:10px 12px}
-  #home .safe-number{font-size:25px}
-  #home .safe-label{font-size:10px}
-  #home .pill{padding:4px 7px;font-size:9px}
-  #home .insight{margin-top:5px;padding:6px 8px}
-  #home .insight-text{font-size:9px}
-  #home .home-grid{margin-top:5px}
-  #home .mini-card{min-height:50px;padding:7px 9px}
-  #home .mini-value{font-size:15px}
-  #home .score-card{margin-top:5px!important;min-height:47px;padding:6px 9px}
-  #home .score-ring{width:40px;height:40px}
-  #home .section-head{margin-top:4px;margin-bottom:3px}
-  #home .envelope{padding:6px}
-  #home .env-money{font-size:12px}
-  #home .goal-mini{min-height:44px;padding:5px 7px}
-  #home .ask-card{min-height:43px;padding:6px 8px}
-}
-
-@media(max-height:610px){
-  #home .score-card .score-info p{display:none}
-  #home .safe-card{padding:8px 10px}
-  #home .safe-number{font-size:23px}
-  #home .insight{display:none}
-  #home .mini-card{min-height:45px}
-  #home .score-card{min-height:42px}
-  #home .score-ring{width:36px;height:36px}
-  #home .goal-mini{min-height:40px}
-  #home .ask-card{min-height:40px}
+  .safe-number{font-size:29px}
+  .home-grid{margin-top:7px}
+  .mini-card{min-height:75px;padding:11px}
+  .section-head{margin-top:8px}
+  .goal-mini{padding:9px 12px}
+  .ask-card{padding:11px 14px}
 }
 
 @media(min-width:521px){
@@ -1277,6 +1233,34 @@ dialog::backdrop{
     border-right:1px solid #17171d;
   }
 }
+
+/* =========================
+   V15 MOBILE SCROLL POLISH
+========================= */
+html,body{
+  min-height:100%;
+}
+.app{
+  height:100dvh;
+  min-height:100dvh;
+}
+#home .home-scroll{
+  overflow-y:auto;
+  overflow-x:hidden;
+  min-height:0;
+  padding-bottom:110px;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+  scrollbar-width:none;
+}
+#home .home-scroll::-webkit-scrollbar{display:none}
+#home .page{min-height:0;height:100dvh}
+.scroll-area{
+  min-height:0;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
+}
+
 </style>
 </head>
 
@@ -1358,6 +1342,27 @@ dialog::backdrop{
             </div>
           </div>
 
+        </div>
+
+
+        <div class="card daily-coach">
+          <div class="daily-top">
+            <div>
+              <div class="daily-kicker">حدك اليومي الآمن</div>
+              <div class="daily-value"><span id="dailySafeHome">0</span> <small>ر.س</small></div>
+            </div>
+            <div class="daily-status" id="dailyStatusHome">نحسب لك...</div>
+          </div>
+          <div class="daily-meta">
+            <div class="daily-stat"><span>صرفك اليوم</span><strong id="todaySpentHome">0 ر.س</strong></div>
+            <div class="daily-stat"><span>المتبقي لليوم</span><strong id="todayLeftHome">0 ر.س</strong></div>
+          </div>
+          <div class="daily-progress"><i id="dailyProgressHome"></i></div>
+          <div class="daily-note" id="dailyNoteHome">أحسب لك حدًا يحمي راتبك ويترك لك مساحة تعيش.</div>
+          <div class="daily-actions">
+            <button type="button" class="daily-buy" data-action="purchase-check">🛍️ أقدر أشتري؟</button>
+            <button type="button" class="daily-ask" data-action="assistant">اسأل وِزنة</button>
+          </div>
         </div>
 
         <div class="home-grid">
@@ -1829,7 +1834,7 @@ dialog::backdrop{
 /* =========================================================
    وِزنة V11
    كل الأحداث مربوطة بـ addEventListener
-   لا يوجد inline onclick
+   الأحداث كلها مربوطة عبر JavaScript event delegation
 ========================================================= */
 
 const STORAGE_KEY = "wiznah_v11";
@@ -3576,6 +3581,56 @@ function deleteSaving(planId){
 }
 
 
+
+function todayExpenses(){
+  const d=new Date();
+  return state.transactions
+    .filter(t=>t.type==="expense" && new Date(t.date).toDateString()===d.toDateString())
+    .reduce((sum,t)=>sum+Number(t.amount||0),0);
+}
+
+function dailySafePlan(){
+  const days=Math.max(1,daysUntilSalary());
+  const today=todayExpenses();
+  const safe=safeAvailable();
+  const beforeToday=Math.max(0,safe+today);
+  const daily=beforeToday/days;
+  const left=Math.max(0,daily-today);
+  const used=daily>0?Math.min(100,(today/daily)*100):0;
+  let status="مريح", cls="";
+  if(today>daily){status="خفف اليوم",cls="bad";}
+  else if(today>=daily*.75){status="قربت من الحد",cls="warn";}
+  return {days,today,safe,daily,left,used,status,cls};
+}
+
+function openPurchaseCheck(){
+  openModal(`
+    <div class="modal-head"><div class="modal-title">🛍️ أقدر أشتري؟</div><button type="button" class="close-btn" data-action="close-modal">×</button></div>
+    <div class="form-group"><label class="label">كم سعر الشيء؟</label><input id="purchasePrice" class="input" type="number" inputmode="decimal" placeholder="مثال: 700"></div>
+    <div class="form-group"><label class="label">وش هو؟ <span style="color:var(--muted)">(اختياري)</span></label><input id="purchaseName" class="input" placeholder="مثال: سماعة"></div>
+    <div id="purchaseResult" class="card" style="margin-top:10px;display:none"></div>
+    <div class="modal-actions"><button type="button" class="btn btn-secondary" data-action="close-modal">إلغاء</button><button type="button" class="btn btn-primary" data-action="check-purchase">احسبها لي</button></div>
+  `);
+}
+
+function checkPurchase(){
+  const price=Number(document.getElementById("purchasePrice")?.value||0);
+  const name=(document.getElementById("purchaseName")?.value||"هذا الشراء").trim();
+  const result=document.getElementById("purchaseResult");
+  if(price<=0){toast("اكتب سعر الشراء أول","bad");return;}
+  const safe=safeAvailable();
+  const after=safe-price;
+  let html="";
+  if(price<=safe*.25 && after>=safetyBuffer()){
+    html=`<div style="font-size:22px">🟢</div><strong style="color:var(--green);font-size:17px">تقدر تشتري ${escapeHTML(name)}</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">بيظل معك تقريبًا <strong>${money(after)} ر.س</strong> من المتاح الآمن.</div>`;
+  }else if(after>=0){
+    html=`<div style="font-size:22px">🟡</div><strong style="color:var(--yellow);font-size:17px">ممكن، لكن انتبه</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">تقدر حسابيًا، لكن الشراء يأخذ ${Math.round((price/Math.max(1,safe))*100)}% من متاحك الآمن. بعده يبقى ${money(after)} ر.س.</div>`;
+  }else{
+    html=`<div style="font-size:22px">🔴</div><strong style="color:var(--red);font-size:17px">ما أنصحك الآن</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">السعر أعلى من متاحك الآمن بـ ${money(Math.abs(after))} ر.س. خل الشراء بعد الراتب أو خفف السعر.</div>`;
+  }
+  result.innerHTML=html; result.style.display="block";
+}
+
 /* =========================================================
    RENDER HOME
 ========================================================= */
@@ -3590,6 +3645,24 @@ function renderHome(){
   const safe = safeAvailable();
 
   safeEl.textContent = money(safe);
+
+  const daily = dailySafePlan();
+  const dailyEl=document.getElementById("dailySafeHome");
+  const spentEl=document.getElementById("todaySpentHome");
+  const leftEl=document.getElementById("todayLeftHome");
+  const statusEl=document.getElementById("dailyStatusHome");
+  const progressEl=document.getElementById("dailyProgressHome");
+  const noteEl=document.getElementById("dailyNoteHome");
+  if(dailyEl) dailyEl.textContent=money(daily.daily);
+  if(spentEl) spentEl.textContent=`${money(daily.today)} ر.س`;
+  if(leftEl) leftEl.textContent=`${money(daily.left)} ر.س`;
+  if(statusEl){statusEl.textContent=daily.status;statusEl.className=`daily-status ${daily.cls}`;}
+  if(progressEl) progressEl.style.width=`${daily.used}%`;
+  if(noteEl){
+    if(!state.salary) noteEl.textContent="أضف راتبك عشان أعطيك رقمًا يوميًا يناسب وضعك.";
+    else if(daily.today>daily.daily) noteEl.textContent=`تجاوزت حد اليوم بحوالي ${money(daily.today-daily.daily)} ر.س. عادي، وِزنة توزع الباقي بدل ما تحكم عليك.`;
+    else noteEl.textContent=`قدامك ${daily.days} يوم للراتب. حاول تخلي صرفك اليوم حول ${money(daily.daily)} ر.س أو أقل.`;
+  }
 
   document.getElementById("daysSalary").textContent =
     daysUntilSalary();
@@ -4559,10 +4632,10 @@ function assistantAnswer(question){
   }
 
 
-  const normalizedQ = q
-    .replace(/[٠-٩]/g, d => String("٠١٢٣٤٥٦٧٨٩".indexOf(d)))
-    .replace(/٫/g,".")
-    .replace(/٬/g,"");
+  const normalizedQ =
+    q.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+     .replace(/[٬,]/g, "")
+     .replace(/٫/g, ".");
 
   const priceMatch =
     normalizedQ.match(/(\d+(?:\.\d+)?)\s*(?:ر|ريال|ر\.س)?/);
@@ -4849,6 +4922,16 @@ document.addEventListener("click",event=>{
     return;
   }
 
+  if(action==="purchase-check"){
+    openPurchaseCheck();
+    return;
+  }
+
+  if(action==="check-purchase"){
+    checkPurchase();
+    return;
+  }
+
   if(action==="activity"){
     showPage("activity");
     return;
@@ -4990,6 +5073,11 @@ document.addEventListener("click",event=>{
     return;
   }
 
+  if(action==="send-chat"){
+    sendChat();
+    return;
+  }
+
   if(action==="save-commitment"){
     saveCommitment();
     return;
@@ -5069,24 +5157,7 @@ document
    START
 ========================================================= */
 
-function normalizeState(){
-  state = state && typeof state === "object" ? state : structuredClone(DEFAULT_STATE);
-  state.onboarded = Boolean(state.onboarded);
-  state.onboardStep = Number.isFinite(Number(state.onboardStep)) ? Number(state.onboardStep) : 0;
-  state.salary = Math.max(0, Number(state.salary) || 0);
-  state.salaryDay = Math.min(31, Math.max(1, Number(state.salaryDay) || 27));
-  state.commitments = Array.isArray(state.commitments) ? state.commitments : [];
-  state.debts = Array.isArray(state.debts) ? state.debts : [];
-  state.budgets = Array.isArray(state.budgets) ? state.budgets : [];
-  state.transactions = Array.isArray(state.transactions) ? state.transactions : [];
-  state.savingsPlans = Array.isArray(state.savingsPlans) ? state.savingsPlans : [];
-  state.currentPage = state.currentPage || "home";
-}
-
 function start(){
-
-  normalizeState();
-  saveState();
 
   if(!state.onboarded){
 
@@ -5112,13 +5183,6 @@ start();
 
 </script>
 
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
-  });
-}
-</script>
-
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
 </body>
 </html>
