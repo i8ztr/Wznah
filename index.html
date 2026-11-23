@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0b10">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="وِزنة">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>وِزنة — مساعدك المالي</title>
 
 <style>
@@ -71,43 +71,6 @@ button{
 /* =========================
    COMMON
 ========================= */
-
-/* =========================
-   WIZNAH DAILY COACH
-========================= */
-.daily-coach{
-  position:relative;
-  overflow:hidden;
-  padding:16px;
-  margin-top:10px;
-  border:1px solid rgba(139,92,246,.18);
-  background:linear-gradient(145deg,rgba(139,92,246,.14),rgba(18,18,24,.98) 55%);
-}
-.daily-coach::after{
-  content:"";position:absolute;inset:-60px -80px auto auto;width:150px;height:150px;
-  background:radial-gradient(circle,rgba(167,139,250,.22),transparent 68%);
-  pointer-events:none;
-}
-.daily-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative;z-index:1}
-.daily-kicker{font-size:11px;color:var(--muted);font-weight:800}
-.daily-value{font-size:32px;font-weight:950;letter-spacing:-1px;margin-top:2px}
-.daily-value small{font-size:12px;color:var(--muted);font-weight:800}
-.daily-status{padding:7px 10px;border-radius:999px;background:rgba(53,211,153,.11);color:var(--green);font-size:11px;font-weight:900;white-space:nowrap}
-.daily-status.warn{background:rgba(251,191,36,.11);color:var(--yellow)}
-.daily-status.bad{background:rgba(251,113,133,.11);color:var(--red)}
-.daily-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;position:relative;z-index:1}
-.daily-stat{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:9px 10px}
-.daily-stat span{display:block;color:var(--muted);font-size:10px;margin-bottom:3px}
-.daily-stat strong{font-size:14px}
-.daily-progress{height:7px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:12px;position:relative;z-index:1}
-.daily-progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--purple2));transition:width .7s ease}
-.daily-note{font-size:11px;color:var(--muted);line-height:1.6;margin-top:9px;position:relative;z-index:1}
-.daily-actions{display:flex;gap:8px;margin-top:12px;position:relative;z-index:1}
-.daily-buy{flex:1;min-height:40px;border-radius:13px;background:white;color:#111;font-weight:900}
-.daily-ask{min-height:40px;padding:0 13px;border-radius:13px;background:rgba(139,92,246,.16);color:#ddd2ff;font-weight:900}
-@keyframes wiznahPulse{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,0)}50%{box-shadow:0 0 0 7px rgba(139,92,246,.06)}}
-.daily-coach{animation:wiznahPulse 4s ease-in-out infinite}
-
 
 .hidden{
   display:none!important;
@@ -1234,50 +1197,8 @@ dialog::backdrop{
   }
 }
 
-/* =========================
-   V15 MOBILE SCROLL POLISH
-========================= */
-html,body{
-  min-height:100%;
-}
-.app{
-  height:100dvh;
-  min-height:100dvh;
-}
-/* V17 SCROLL FIX */
-#home .page{
-  min-height:0;
-  height:100%;
-  min-height:100dvh;
-  overflow:hidden;
-}
-#home .home-scroll{
-  flex:1 1 auto;
-  min-height:0;
-  height:0;
-  overflow-y:scroll;
-  overflow-x:hidden;
-  padding:8px 16px calc(120px + env(safe-area-inset-bottom));
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior-y:auto;
-  touch-action:pan-y;
-  scrollbar-width:none;
-  scroll-behavior:smooth;
-}
-#home .home-scroll::-webkit-scrollbar{display:none}
-.scroll-area{
-  flex:1 1 auto;
-  min-height:0;
-  height:0;
-  overflow-y:scroll;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior-y:auto;
-  touch-action:pan-y;
-  scrollbar-width:none;
-}
-.scroll-area::-webkit-scrollbar{display:none}
-
+#home .page{min-height:0;overflow:hidden}#home .home-scroll{min-height:0;overflow:hidden}#home .envelopes{overflow:hidden;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}#home .envelope{min-width:0}#home .envelope:nth-child(n+4){display:none}@media(max-height:720px){#home .home-scroll{padding-top:5px;padding-bottom:6px}#home .safe-card{padding:14px}#home .safe-number{font-size:30px}#home .insight{margin-top:6px;padding:9px 11px}#home .home-grid{margin-top:6px;gap:7px}#home .mini-card{min-height:68px;padding:10px}#home .section-head{margin-top:7px;margin-bottom:5px}#home .ask-card{margin-top:6px;padding:10px 12px}}@media(max-height:620px){#home .insight{display:none}#home .score-card{padding:8px}#home .goal-mini{padding:9px 11px}#home .page{padding-bottom:70px}#home .bottom-nav{height:70px}}
+.saving-wallet{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.saved-balance{font-size:24px;font-weight:950;margin-top:4px}
 </style>
 </head>
 
@@ -1359,27 +1280,6 @@ html,body{
             </div>
           </div>
 
-        </div>
-
-
-        <div class="card daily-coach">
-          <div class="daily-top">
-            <div>
-              <div class="daily-kicker">حدك اليومي الآمن</div>
-              <div class="daily-value"><span id="dailySafeHome">0</span> <small>ر.س</small></div>
-            </div>
-            <div class="daily-status" id="dailyStatusHome">نحسب لك...</div>
-          </div>
-          <div class="daily-meta">
-            <div class="daily-stat"><span>صرفك اليوم</span><strong id="todaySpentHome">0 ر.س</strong></div>
-            <div class="daily-stat"><span>المتبقي لليوم</span><strong id="todayLeftHome">0 ر.س</strong></div>
-          </div>
-          <div class="daily-progress"><i id="dailyProgressHome"></i></div>
-          <div class="daily-note" id="dailyNoteHome">أحسب لك حدًا يحمي راتبك ويترك لك مساحة تعيش.</div>
-          <div class="daily-actions">
-            <button type="button" class="daily-buy" data-action="purchase-check">🛍️ أقدر أشتري؟</button>
-            <button type="button" class="daily-ask" data-action="assistant">اسأل وِزنة</button>
-          </div>
         </div>
 
         <div class="home-grid">
@@ -1599,12 +1499,14 @@ html,body{
 
         <div class="card savings-hero">
           <div class="savings-hero-title">المتاح المتوقع للادخار شهريًا</div>
-          <div class="savings-hero-value">
-            <span id="availableSaving">0</span> ر.س
+          <div class="savings-hero-value"><span id="availableSaving">0</span> ر.س</div>
+          <div class="savings-hero-desc" id="savingHeroDesc">يعتمد على راتبك والتزاماتك وأقساطك ومحافظك.</div>
+          <div class="saving-wallet">
+            <button type="button" class="btn btn-primary" data-action="add-saving-money">+ أضفت للادخار</button>
+            <button type="button" class="btn btn-secondary" data-action="withdraw-saving-money">↩ سحب من الادخار</button>
           </div>
-          <div class="savings-hero-desc" id="savingHeroDesc">
-            يعتمد على راتبك والتزاماتك وأقساطك ومحافظك.
-          </div>
+          <div style="margin-top:10px;color:var(--muted);font-size:10px">الادخار يُحجز من المتاح فعليًا، لكنه لا يُحسب كمصروف.</div>
+          <div style="margin-top:10px"><div class="savings-hero-title">إجمالي المدخر الآن</div><div class="saved-balance"><span id="totalSavedNow">0</span> ر.س</div></div>
         </div>
 
         <div id="savingsList" class="list"></div>
@@ -1851,10 +1753,11 @@ html,body{
 /* =========================================================
    وِزنة V11
    كل الأحداث مربوطة بـ addEventListener
-   الأحداث كلها مربوطة عبر JavaScript event delegation
+   لا يوجد inline onclick
 ========================================================= */
 
-const STORAGE_KEY = "wiznah_v11";
+const STORAGE_KEY = "wiznah_v18";
+const LEGACY_STORAGE_KEY = "wiznah_v11";
 
 const DEFAULT_STATE = {
   onboarded:false,
@@ -1884,11 +1787,10 @@ let toastTimer = null;
 
 function loadState(){
   try{
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if(!saved){
-      return structuredClone(DEFAULT_STATE);
-    }
+    let saved = localStorage.getItem(STORAGE_KEY);
+    let migrated = false;
+    if(!saved){ saved=localStorage.getItem(LEGACY_STORAGE_KEY); migrated=!!saved; }
+    if(!saved){ return structuredClone(DEFAULT_STATE); }
 
     const parsed = JSON.parse(saved);
 
@@ -2034,11 +1936,9 @@ function monthDebtPayments(){
 }
 
 function monthSavings(){
-
-  return state.transactions
-    .filter(t=>t.type==="saving" && isThisMonth(t.date))
-    .reduce((sum,t)=>sum + Number(t.amount || 0),0);
+  return state.transactions.filter(t=>(t.type==="saving"||t.type==="saving_withdrawal")&&isThisMonth(t.date)).reduce((sum,t)=>sum+(t.type==="saving"?Number(t.amount||0):-Number(t.amount||0)),0);
 }
+function totalSaved(){ return state.savingsPlans.reduce((sum,p)=>sum+Math.max(0,Number(p.saved||0)),0); }
 
 function budgetSpent(budgetId){
 
@@ -3418,16 +3318,7 @@ function openSavingForm(idValue=null){
         placeholder="مثال: 6000">
     </div>
 
-    <div class="form-group">
-      <label class="label">المبلغ المدخر حاليًا</label>
-
-      <input id="savingSaved"
-        class="input"
-        type="number"
-        inputmode="decimal"
-        value="${item?.saved || 0}"
-        placeholder="0">
-    </div>
+    ${item ? `<div class="card" style="padding:12px;margin-bottom:16px;background:rgba(53,211,153,.06)"><div style="color:var(--muted);font-size:11px">المدخر حاليًا</div><div style="font-size:22px;font-weight:950;margin-top:4px">${money(item.saved)} ر.س</div><div style="color:var(--muted);font-size:10px;margin-top:4px">غيّر المبلغ من أزرار الادخار والسحب حتى تبقى الحركة مسجلة.</div></div>` : `<div class="form-group"><label class="label">مبلغ بداية للهدف <span style="color:var(--muted)">(اختياري)</span></label><input id="savingInitial" class="input" type="number" inputmode="decimal" min="0" value="0" placeholder="0"><div class="helper">سيُحجز هذا المبلغ من المتاح عند إنشاء الهدف.</div></div>`}
 
     <div class="form-group">
       <label class="label">متى تحتاج المبلغ؟</label>
@@ -3471,78 +3362,27 @@ function openSavingForm(idValue=null){
 }
 
 function saveSaving(){
-
-  const name =
-    document.getElementById("savingName")?.value.trim();
-
-  const target =
-    Number(document.getElementById("savingTarget")?.value || 0);
-
-  const saved =
-    Number(document.getElementById("savingSaved")?.value || 0);
-
-  const deadline =
-    document.getElementById("savingDeadline")?.value;
-
-  if(!name){
-    toast("اكتب اسم الهدف","bad");
-    return;
-  }
-
-  if(target<=0){
-    toast("اكتب مبلغ الهدف","bad");
-    return;
-  }
-
-  if(saved<0){
-    toast("المبلغ المدخر غير صحيح","bad");
-    return;
-  }
-
-  if(!deadline){
-    toast("حدد موعد الهدف","bad");
-    return;
-  }
-
-  const date = new Date(deadline);
-
-  if(date <= new Date()){
-    toast("اختار موعدًا قادمًا","bad");
-    return;
-  }
-
+  const name=document.getElementById("savingName")?.value.trim();
+  const target=Number(document.getElementById("savingTarget")?.value||0);
+  const deadline=document.getElementById("savingDeadline")?.value;
+  const initial=editingId?0:Math.max(0,Number(document.getElementById("savingInitial")?.value||0));
+  if(!name){toast("اكتب اسم الهدف","bad");return;}
+  if(target<=0){toast("اكتب مبلغ الهدف","bad");return;}
+  if(!deadline){toast("حدد موعد الهدف","bad");return;}
+  const d=new Date(`${deadline}T23:59:59`);
+  if(Number.isNaN(d.getTime())||d<=new Date()){toast("اختار موعدًا قادمًا","bad");return;}
+  if(initial>safeAvailable()){toast(`المتاح الآمن ${money(safeAvailable())} ر.س فقط`,"bad");return;}
   if(editingId){
-
-    const item =
-      state.savingsPlans.find(x=>x.id===editingId);
-
-    if(item){
-      item.name=name;
-      item.target=target;
-      item.saved=saved;
-      item.deadline=deadline;
-      item.icon=selectedIcon;
-    }
-
+    const item=state.savingsPlans.find(x=>x.id===editingId);
+    if(!item)return;
+    if(target<Number(item.saved||0)){toast("الهدف لا يمكن أن يكون أقل من المدخر الحالي","bad");return;}
+    item.name=name; item.target=target; item.deadline=deadline; item.icon=selectedIcon;
   }else{
-
-    state.savingsPlans.push({
-      id:id(),
-      name,
-      target,
-      saved,
-      deadline,
-      icon:selectedIcon,
-      createdAt:Date.now()
-    });
-
+    const planId=id();
+    state.savingsPlans.push({id:planId,name,target,saved:initial,deadline,icon:selectedIcon,createdAt:Date.now()});
+    if(initial>0) state.transactions.push({id:id(),type:"saving",amount:initial,name:`ادخار - ${name}`,savingsPlanId:planId,date:Date.now()});
   }
-
-  saveState();
-  closeModal();
-  renderCurrentPage();
-
-  toast("تم حفظ خطة الادخار 🎯","good");
+  saveState();closeModal();renderCurrentPage();toast(editingId?"تم تحديث الهدف 🎯":"تم إنشاء هدف الادخار 🎯","good");
 }
 
 function savingsAnalysis(plan){
@@ -3578,74 +3418,44 @@ function savingsAnalysis(plan){
   };
 }
 
-function deleteSaving(planId){
-
-  openConfirm(
-    "حذف الهدف؟",
-    "سيتم حذف خطة الادخار هذه.",
-    ()=>{
-      state.savingsPlans =
-        state.savingsPlans.filter(
-          x=>x.id!==planId
-        );
-
-      saveState();
-      renderCurrentPage();
-
-      toast("تم حذف الهدف");
-    }
-  );
+function openSavingMoneyForm(mode="deposit",preselectedId=null){
+  if(!state.savingsPlans.length){toast("أضف هدف ادخار أولًا","bad");return;}
+  const title=mode==="deposit"?"إضافة مبلغ للادخار":"سحب مبلغ من الادخار";
+  const action=mode==="deposit"?"confirm-saving-deposit":"confirm-saving-withdraw";
+  openModal(`<div class="modal-head"><div class="modal-title">${title}</div><button type="button" class="close-btn" data-action="close-modal">×</button></div>
+  <div class="form-group"><label class="label">الهدف</label><select id="savingMoneyPlan" class="input">${state.savingsPlans.map(p=>`<option value="${p.id}" ${p.id===preselectedId?"selected":""}>${escapeHTML(p.icon)} ${escapeHTML(p.name)} — ${money(p.saved)} ر.س</option>`).join("")}</select></div>
+  <div class="form-group"><label class="label">المبلغ</label><input id="savingMoneyAmount" class="input" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="500"></div>
+  <div class="modal-actions"><button type="button" class="btn btn-secondary" data-action="close-modal">إلغاء</button><button type="button" class="btn btn-primary" data-action="${action}">تأكيد</button></div>`);
 }
-
-
-
-function todayExpenses(){
-  const d=new Date();
-  return state.transactions
-    .filter(t=>t.type==="expense" && new Date(t.date).toDateString()===d.toDateString())
-    .reduce((sum,t)=>sum+Number(t.amount||0),0);
-}
-
-function dailySafePlan(){
-  const days=Math.max(1,daysUntilSalary());
-  const today=todayExpenses();
-  const safe=safeAvailable();
-  const beforeToday=Math.max(0,safe+today);
-  const daily=beforeToday/days;
-  const left=Math.max(0,daily-today);
-  const used=daily>0?Math.min(100,(today/daily)*100):0;
-  let status="مريح", cls="";
-  if(today>daily){status="خفف اليوم",cls="bad";}
-  else if(today>=daily*.75){status="قربت من الحد",cls="warn";}
-  return {days,today,safe,daily,left,used,status,cls};
-}
-
-function openPurchaseCheck(){
-  openModal(`
-    <div class="modal-head"><div class="modal-title">🛍️ أقدر أشتري؟</div><button type="button" class="close-btn" data-action="close-modal">×</button></div>
-    <div class="form-group"><label class="label">كم سعر الشيء؟</label><input id="purchasePrice" class="input" type="number" inputmode="decimal" placeholder="مثال: 700"></div>
-    <div class="form-group"><label class="label">وش هو؟ <span style="color:var(--muted)">(اختياري)</span></label><input id="purchaseName" class="input" placeholder="مثال: سماعة"></div>
-    <div id="purchaseResult" class="card" style="margin-top:10px;display:none"></div>
-    <div class="modal-actions"><button type="button" class="btn btn-secondary" data-action="close-modal">إلغاء</button><button type="button" class="btn btn-primary" data-action="check-purchase">احسبها لي</button></div>
-  `);
-}
-
-function checkPurchase(){
-  const price=Number(document.getElementById("purchasePrice")?.value||0);
-  const name=(document.getElementById("purchaseName")?.value||"هذا الشراء").trim();
-  const result=document.getElementById("purchaseResult");
-  if(price<=0){toast("اكتب سعر الشراء أول","bad");return;}
-  const safe=safeAvailable();
-  const after=safe-price;
-  let html="";
-  if(price<=safe*.25 && after>=safetyBuffer()){
-    html=`<div style="font-size:22px">🟢</div><strong style="color:var(--green);font-size:17px">تقدر تشتري ${escapeHTML(name)}</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">بيظل معك تقريبًا <strong>${money(after)} ر.س</strong> من المتاح الآمن.</div>`;
-  }else if(after>=0){
-    html=`<div style="font-size:22px">🟡</div><strong style="color:var(--yellow);font-size:17px">ممكن، لكن انتبه</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">تقدر حسابيًا، لكن الشراء يأخذ ${Math.round((price/Math.max(1,safe))*100)}% من متاحك الآمن. بعده يبقى ${money(after)} ر.س.</div>`;
-  }else{
-    html=`<div style="font-size:22px">🔴</div><strong style="color:var(--red);font-size:17px">ما أنصحك الآن</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">السعر أعلى من متاحك الآمن بـ ${money(Math.abs(after))} ر.س. خل الشراء بعد الراتب أو خفف السعر.</div>`;
+function applySavingMoney(mode){
+  const plan=state.savingsPlans.find(x=>x.id===document.getElementById("savingMoneyPlan")?.value);
+  const amount=Number(document.getElementById("savingMoneyAmount")?.value||0);
+  if(!plan){toast("اختر هدفًا صحيحًا","bad");return;} if(amount<=0){toast("اكتب مبلغًا صحيحًا","bad");return;}
+  if(mode==="deposit"){
+    const remaining=Math.max(0,Number(plan.target)-Number(plan.saved||0)); const safe=safeAvailable();
+    if(amount>remaining){toast(`المتبقي للهدف ${money(remaining)} ر.س فقط`,"bad");return;} if(amount>safe){toast(`المتاح الآمن ${money(safe)} ر.س فقط`,"bad");return;}
+    plan.saved=Number(plan.saved||0)+amount; state.transactions.push({id:id(),type:"saving",amount,name:`ادخار - ${plan.name}`,savingsPlanId:plan.id,date:Date.now()});
+    saveState();closeModal();renderCurrentPage();toast(`تم ادخار ${money(amount)} ر.س 💰`,"good");return;
   }
-  result.innerHTML=html; result.style.display="block";
+  if(amount>Number(plan.saved||0)){toast(`رصيد الهدف ${money(plan.saved||0)} ر.س فقط`,"bad");return;}
+  plan.saved=Number(plan.saved||0)-amount; state.transactions.push({id:id(),type:"saving_withdrawal",amount,name:`سحب من الادخار - ${plan.name}`,savingsPlanId:plan.id,date:Date.now()});
+  saveState();closeModal();renderCurrentPage();toast(`تم إرجاع ${money(amount)} ر.س للمتاح ↩️`,"good");
+}
+
+function deleteSaving(planId){
+  const plan=state.savingsPlans.find(x=>x.id===planId);
+  if(!plan)return;
+  const saved=Number(plan.saved||0);
+  const message=saved>0
+    ? `سيتم حذف الهدف وإرجاع ${money(saved)} ر.س إلى المتاح. لن تُحذف الفلوس من حساب وِزنة.`
+    : "سيتم حذف خطة الادخار هذه.";
+  openConfirm("حذف الهدف؟",message,()=>{
+    if(saved>0){
+      state.transactions.push({id:id(),type:"saving_withdrawal",amount:saved,name:`إرجاع ادخار - ${plan.name}`,savingsPlanId:plan.id,date:Date.now()});
+    }
+    state.savingsPlans=state.savingsPlans.filter(x=>x.id!==planId);
+    saveState();renderCurrentPage();toast(saved>0?"تم حذف الهدف وإرجاع المبلغ للمتاح":"تم حذف الهدف");
+  });
 }
 
 /* =========================================================
@@ -3662,24 +3472,6 @@ function renderHome(){
   const safe = safeAvailable();
 
   safeEl.textContent = money(safe);
-
-  const daily = dailySafePlan();
-  const dailyEl=document.getElementById("dailySafeHome");
-  const spentEl=document.getElementById("todaySpentHome");
-  const leftEl=document.getElementById("todayLeftHome");
-  const statusEl=document.getElementById("dailyStatusHome");
-  const progressEl=document.getElementById("dailyProgressHome");
-  const noteEl=document.getElementById("dailyNoteHome");
-  if(dailyEl) dailyEl.textContent=money(daily.daily);
-  if(spentEl) spentEl.textContent=`${money(daily.today)} ر.س`;
-  if(leftEl) leftEl.textContent=`${money(daily.left)} ر.س`;
-  if(statusEl){statusEl.textContent=daily.status;statusEl.className=`daily-status ${daily.cls}`;}
-  if(progressEl) progressEl.style.width=`${daily.used}%`;
-  if(noteEl){
-    if(!state.salary) noteEl.textContent="أضف راتبك عشان أعطيك رقمًا يوميًا يناسب وضعك.";
-    else if(daily.today>daily.daily) noteEl.textContent=`تجاوزت حد اليوم بحوالي ${money(daily.today-daily.daily)} ر.س. عادي، وِزنة توزع الباقي بدل ما تحكم عليك.`;
-    else noteEl.textContent=`قدامك ${daily.days} يوم للراتب. حاول تخلي صرفك اليوم حول ${money(daily.daily)} ر.س أو أقل.`;
-  }
 
   document.getElementById("daysSalary").textContent =
     daysUntilSalary();
@@ -4184,8 +3976,8 @@ function renderSavings(){
   const availableValue =
     availableToSave();
 
-  available.textContent =
-    money(availableValue);
+  available.textContent = money(availableValue);
+  const totalSavedEl=document.getElementById("totalSavedNow"); if(totalSavedEl) totalSavedEl.textContent=money(totalSaved());
 
   document.getElementById("savingHeroDesc").textContent =
     availableValue>0
@@ -4297,22 +4089,11 @@ function renderSavings(){
             ${analysisText}
           </div>
 
-          <div class="row-actions" style="margin-top:12px">
-
-            <button type="button"
-              class="small-btn primary"
-              data-action="edit-saving"
-              data-id="${plan.id}">
-              تعديل
-            </button>
-
-            <button type="button"
-              class="small-btn danger"
-              data-action="delete-saving"
-              data-id="${plan.id}">
-              حذف
-            </button>
-
+          <div class="row-actions" style="margin-top:12px;flex-wrap:wrap">
+            <button type="button" class="small-btn primary" data-action="deposit-saving-plan" data-id="${plan.id}">+ ادخار</button>
+            <button type="button" class="small-btn" data-action="withdraw-saving-plan" data-id="${plan.id}">سحب</button>
+            <button type="button" class="small-btn" data-action="edit-saving" data-id="${plan.id}">تعديل</button>
+            <button type="button" class="small-btn danger" data-action="delete-saving" data-id="${plan.id}">حذف</button>
           </div>
 
         </div>
@@ -4649,13 +4430,8 @@ function assistantAnswer(question){
   }
 
 
-  const normalizedQ =
-    q.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
-     .replace(/[٬,]/g, "")
-     .replace(/٫/g, ".");
-
   const priceMatch =
-    normalizedQ.match(/(\d+(?:\.\d+)?)\s*(?:ر|ريال|ر\.س)?/);
+    q.match(/(\d+(?:\.\d+)?)\s*(?:ر|ريال|ر\.س)?/);
 
   if(priceMatch){
 
@@ -4939,16 +4715,6 @@ document.addEventListener("click",event=>{
     return;
   }
 
-  if(action==="purchase-check"){
-    openPurchaseCheck();
-    return;
-  }
-
-  if(action==="check-purchase"){
-    checkPurchase();
-    return;
-  }
-
   if(action==="activity"){
     showPage("activity");
     return;
@@ -5060,6 +4826,13 @@ document.addEventListener("click",event=>{
     return;
   }
 
+  if(action==="add-saving-money"){openSavingMoneyForm("deposit");return;}
+  if(action==="withdraw-saving-money"){openSavingMoneyForm("withdraw");return;}
+  if(action==="deposit-saving-plan"){openSavingMoneyForm("deposit",target.dataset.id);return;}
+  if(action==="withdraw-saving-plan"){openSavingMoneyForm("withdraw",target.dataset.id);return;}
+  if(action==="confirm-saving-deposit"){applySavingMoney("deposit");return;}
+  if(action==="confirm-saving-withdraw"){applySavingMoney("withdraw");return;}
+
   if(action==="edit-saving"){
     openSavingForm(target.dataset.id);
     return;
@@ -5087,11 +4860,6 @@ document.addEventListener("click",event=>{
 
   if(action==="close-modal"){
     closeModal();
-    return;
-  }
-
-  if(action==="send-chat"){
-    sendChat();
     return;
   }
 
@@ -5198,8 +4966,8 @@ function start(){
 
 start();
 
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 </script>
 
-<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
 </body>
 </html>
