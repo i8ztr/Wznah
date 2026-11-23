@@ -1,0 +1,5149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0b10">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>وِزنة — مساعدك المالي</title>
+
+<style>
+:root{
+  --bg:#09090d;
+  --surface:#121218;
+  --surface2:#181820;
+  --surface3:#20202a;
+  --text:#f7f7fb;
+  --muted:#9696a5;
+  --purple:#8b5cf6;
+  --purple2:#a78bfa;
+  --green:#35d399;
+  --yellow:#fbbf24;
+  --red:#fb7185;
+  --blue:#60a5fa;
+  --border:rgba(255,255,255,.07);
+  --shadow:0 15px 40px rgba(0,0,0,.28);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Tahoma,Arial,sans-serif;
+}
+
+body{
+  overflow:hidden;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  width:100%;
+  height:100%;
+  max-width:520px;
+  margin:auto;
+  position:relative;
+  background:
+    radial-gradient(circle at 85% -10%,rgba(139,92,246,.16),transparent 35%),
+    var(--bg);
+  overflow:hidden;
+}
+
+/* =========================
+   COMMON
+========================= */
+
+/* =========================
+   WIZNAH DAILY COACH
+========================= */
+.daily-coach{
+  position:relative;
+  overflow:hidden;
+  padding:16px;
+  margin-top:10px;
+  border:1px solid rgba(139,92,246,.18);
+  background:linear-gradient(145deg,rgba(139,92,246,.14),rgba(18,18,24,.98) 55%);
+}
+.daily-coach::after{
+  content:"";position:absolute;inset:-60px -80px auto auto;width:150px;height:150px;
+  background:radial-gradient(circle,rgba(167,139,250,.22),transparent 68%);
+  pointer-events:none;
+}
+.daily-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:relative;z-index:1}
+.daily-kicker{font-size:11px;color:var(--muted);font-weight:800}
+.daily-value{font-size:32px;font-weight:950;letter-spacing:-1px;margin-top:2px}
+.daily-value small{font-size:12px;color:var(--muted);font-weight:800}
+.daily-status{padding:7px 10px;border-radius:999px;background:rgba(53,211,153,.11);color:var(--green);font-size:11px;font-weight:900;white-space:nowrap}
+.daily-status.warn{background:rgba(251,191,36,.11);color:var(--yellow)}
+.daily-status.bad{background:rgba(251,113,133,.11);color:var(--red)}
+.daily-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;position:relative;z-index:1}
+.daily-stat{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:9px 10px}
+.daily-stat span{display:block;color:var(--muted);font-size:10px;margin-bottom:3px}
+.daily-stat strong{font-size:14px}
+.daily-progress{height:7px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:12px;position:relative;z-index:1}
+.daily-progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--purple2));transition:width .7s ease}
+.daily-note{font-size:11px;color:var(--muted);line-height:1.6;margin-top:9px;position:relative;z-index:1}
+.daily-actions{display:flex;gap:8px;margin-top:12px;position:relative;z-index:1}
+.daily-buy{flex:1;min-height:40px;border-radius:13px;background:white;color:#111;font-weight:900}
+.daily-ask{min-height:40px;padding:0 13px;border-radius:13px;background:rgba(139,92,246,.16);color:#ddd2ff;font-weight:900}
+@keyframes wiznahPulse{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,0)}50%{box-shadow:0 0 0 7px rgba(139,92,246,.06)}}
+.daily-coach{animation:wiznahPulse 4s ease-in-out infinite}
+
+
+.hidden{
+  display:none!important;
+}
+
+.screen{
+  position:absolute;
+  inset:0;
+  display:none;
+}
+
+.screen.active{
+  display:flex;
+}
+
+.btn{
+  min-height:48px;
+  padding:0 18px;
+  border-radius:16px;
+  font-weight:800;
+  transition:.18s ease;
+}
+
+.btn:active{
+  transform:scale(.96);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--purple),#6d3fe5);
+  color:white;
+  box-shadow:0 10px 28px rgba(139,92,246,.22);
+}
+
+.btn-secondary{
+  background:var(--surface3);
+  color:white;
+}
+
+.btn-danger{
+  background:rgba(251,113,133,.12);
+  color:var(--red);
+}
+
+.icon-btn{
+  width:44px;
+  height:44px;
+  border-radius:15px;
+  background:var(--surface2);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.page{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.page-header{
+  padding:18px 18px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+}
+
+.page-title{
+  font-size:25px;
+  font-weight:900;
+}
+
+.page-subtitle{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:3px;
+}
+
+.scroll-area{
+  flex:1;
+  overflow-y:auto;
+  padding:10px 18px 110px;
+  scrollbar-width:none;
+}
+
+.scroll-area::-webkit-scrollbar{
+  display:none;
+}
+
+.card{
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+  border:1px solid var(--border);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+}
+
+.empty{
+  text-align:center;
+  padding:34px 20px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  width:64px;
+  height:64px;
+  margin:0 auto 14px;
+  border-radius:22px;
+  background:var(--surface2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+}
+
+.empty strong{
+  display:block;
+  color:white;
+  margin-bottom:6px;
+  font-size:16px;
+}
+
+/* =========================
+   ONBOARDING
+========================= */
+
+#onboarding{
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 50% 10%,rgba(139,92,246,.22),transparent 35%),
+    var(--bg);
+}
+
+.onboard-box{
+  width:100%;
+  max-width:420px;
+}
+
+.logo{
+  width:70px;
+  height:70px;
+  border-radius:24px;
+  background:linear-gradient(135deg,var(--purple),#5b21b6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  margin-bottom:20px;
+  box-shadow:0 20px 50px rgba(139,92,246,.25);
+}
+
+.onboard-title{
+  font-size:34px;
+  font-weight:950;
+  letter-spacing:-1px;
+}
+
+.onboard-desc{
+  color:var(--muted);
+  line-height:1.8;
+  margin:8px 0 28px;
+}
+
+.steps{
+  display:flex;
+  gap:7px;
+  margin-bottom:24px;
+}
+
+.step-dot{
+  height:5px;
+  flex:1;
+  background:var(--surface3);
+  border-radius:10px;
+  transition:.25s;
+}
+
+.step-dot.active{
+  background:var(--purple);
+}
+
+.form-group{
+  margin-bottom:16px;
+}
+
+.label{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+.input{
+  width:100%;
+  height:52px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:white;
+  padding:0 16px;
+  outline:none;
+  transition:.2s;
+}
+
+.input:focus{
+  border-color:rgba(139,92,246,.7);
+  box-shadow:0 0 0 4px rgba(139,92,246,.08);
+}
+
+.input::placeholder{
+  color:#626270;
+}
+
+.onboard-actions{
+  display:flex;
+  gap:10px;
+  margin-top:24px;
+}
+
+.onboard-actions .btn{
+  flex:1;
+}
+
+.helper{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:8px;
+  line-height:1.6;
+}
+
+/* =========================
+   HOME
+========================= */
+
+#home .page{
+  padding-bottom:78px;
+}
+
+.home-scroll{
+  flex:1;
+  overflow:hidden;
+  padding:8px 16px 12px;
+}
+
+.greeting{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.greeting-small{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.greeting-name{
+  font-size:20px;
+  font-weight:900;
+}
+
+.home-settings{
+  width:40px;
+  height:40px;
+  border-radius:14px;
+  background:var(--surface2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.safe-card{
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(167,139,250,.25),transparent 42%),
+    linear-gradient(135deg,#181320,#111117);
+}
+
+.safe-label{
+  color:#aaa6b8;
+  font-size:12px;
+}
+
+.safe-number{
+  font-size:34px;
+  font-weight:950;
+  letter-spacing:-1px;
+  margin-top:4px;
+}
+
+.safe-number span{
+  font-size:14px;
+  color:var(--muted);
+  font-weight:700;
+}
+
+.safe-meta{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  color:#c8c6d0;
+  font-size:11px;
+}
+
+.insight{
+  margin-top:10px;
+  padding:12px 14px;
+  border-radius:17px;
+  background:rgba(139,92,246,.08);
+  border:1px solid rgba(139,92,246,.12);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.insight-icon{
+  font-size:20px;
+}
+
+.insight-text{
+  font-size:12px;
+  line-height:1.55;
+  color:#d7d3df;
+}
+
+.home-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+
+.mini-card{
+  padding:14px;
+  min-height:90px;
+}
+
+.mini-title{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.mini-value{
+  font-size:21px;
+  font-weight:900;
+  margin-top:5px;
+}
+
+.score-card{
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.score-ring{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:conic-gradient(var(--purple) var(--score,70%),#292833 0);
+  position:relative;
+  flex-shrink:0;
+}
+
+.score-ring::after{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border-radius:50%;
+  background:#15141b;
+}
+
+.score-ring span{
+  position:relative;
+  z-index:1;
+  font-size:14px;
+  font-weight:900;
+}
+
+.score-info strong{
+  font-size:14px;
+}
+
+.score-info p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:12px 2px 7px;
+}
+
+.section-head strong{
+  font-size:13px;
+}
+
+.link-btn{
+  color:var(--purple2);
+  background:none;
+  font-size:11px;
+  font-weight:800;
+}
+
+.envelopes{
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.envelopes::-webkit-scrollbar{
+  display:none;
+}
+
+.envelope{
+  min-width:138px;
+  padding:12px;
+  border-radius:19px;
+  background:var(--surface);
+  border:1px solid var(--border);
+}
+
+.env-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.env-icon{
+  font-size:19px;
+}
+
+.env-name{
+  font-size:11px;
+  color:#cccbd4;
+}
+
+.env-money{
+  font-size:17px;
+  font-weight:900;
+  margin-top:8px;
+}
+
+.progress{
+  height:5px;
+  background:#292932;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,var(--purple),var(--purple2));
+  width:0;
+  transition:width .6s ease;
+}
+
+.goal-mini{
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.goal-icon{
+  width:42px;
+  height:42px;
+  border-radius:15px;
+  background:rgba(139,92,246,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+}
+
+.goal-info{
+  flex:1;
+  min-width:0;
+}
+
+.goal-name{
+  font-weight:800;
+  font-size:12px;
+}
+
+.goal-text{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+.ask-card{
+  margin-top:10px;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(139,92,246,.05));
+  border-color:rgba(139,92,246,.18);
+  transition:.2s;
+}
+
+.ask-card:active{
+  transform:scale(.98);
+}
+
+.ask-icon{
+  width:43px;
+  height:43px;
+  border-radius:15px;
+  background:var(--purple);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+}
+
+.ask-info{
+  flex:1;
+}
+
+.ask-info strong{
+  font-size:14px;
+}
+
+.ask-info p{
+  margin:3px 0 0;
+  color:#aaa5b5;
+  font-size:10px;
+}
+
+.arrow{
+  color:#9c8ac9;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.bottom-nav{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:78px;
+  padding:9px 10px calc(9px + env(safe-area-inset-bottom));
+  display:flex;
+  gap:5px;
+  background:rgba(10,10,14,.92);
+  backdrop-filter:blur(22px);
+  border-top:1px solid var(--border);
+  z-index:20;
+}
+
+.nav-btn{
+  flex:1;
+  border-radius:15px;
+  background:none;
+  color:#777685;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  font-size:18px;
+  transition:.2s;
+}
+
+.nav-btn span{
+  font-size:9px;
+  font-weight:800;
+}
+
+.nav-btn.active{
+  color:white;
+  background:rgba(139,92,246,.13);
+}
+
+.nav-btn.active:first-letter{
+  color:var(--purple2);
+}
+
+/* =========================
+   LISTS
+========================= */
+
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.row-card{
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.row-icon{
+  width:45px;
+  height:45px;
+  border-radius:15px;
+  background:var(--surface3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  flex-shrink:0;
+}
+
+.row-main{
+  flex:1;
+  min-width:0;
+}
+
+.row-name{
+  font-size:13px;
+  font-weight:850;
+}
+
+.row-sub{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+.row-end{
+  text-align:left;
+}
+
+.row-amount{
+  font-weight:900;
+  font-size:14px;
+}
+
+.row-actions{
+  display:flex;
+  gap:5px;
+  margin-top:7px;
+}
+
+.small-btn{
+  height:30px;
+  padding:0 9px;
+  border-radius:10px;
+  background:var(--surface3);
+  color:#ddd;
+  font-size:10px;
+  font-weight:800;
+}
+
+.small-btn.primary{
+  background:rgba(139,92,246,.15);
+  color:var(--purple2);
+}
+
+.small-btn.danger{
+  color:var(--red);
+  background:rgba(251,113,133,.08);
+}
+
+.fab{
+  position:absolute;
+  left:18px;
+  bottom:91px;
+  width:56px;
+  height:56px;
+  border-radius:20px;
+  background:linear-gradient(135deg,var(--purple),#6d3fe5);
+  color:white;
+  font-size:27px;
+  box-shadow:0 14px 35px rgba(139,92,246,.3);
+  z-index:10;
+}
+
+/* =========================
+   BUDGET DETAIL
+========================= */
+
+.detail-hero{
+  padding:18px;
+  text-align:center;
+}
+
+.detail-icon{
+  width:66px;
+  height:66px;
+  border-radius:22px;
+  background:var(--surface3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 10px;
+  font-size:30px;
+}
+
+.detail-name{
+  font-size:22px;
+  font-weight:950;
+}
+
+.detail-amount{
+  font-size:32px;
+  font-weight:950;
+  margin-top:5px;
+}
+
+.detail-amount span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.detail-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-top:16px;
+}
+
+.detail-stat{
+  padding:11px 7px;
+  border-radius:15px;
+  background:var(--surface2);
+}
+
+.detail-stat strong{
+  display:block;
+  font-size:14px;
+}
+
+.detail-stat span{
+  color:var(--muted);
+  font-size:9px;
+}
+
+/* =========================
+   SAVINGS
+========================= */
+
+.savings-hero{
+  padding:18px;
+  margin-bottom:10px;
+}
+
+.savings-hero-title{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.savings-hero-value{
+  font-size:29px;
+  font-weight:950;
+  margin-top:5px;
+}
+
+.savings-hero-desc{
+  color:#aaa8b3;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:5px;
+}
+
+.plan-card{
+  padding:16px;
+}
+
+.plan-top{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.plan-icon{
+  width:48px;
+  height:48px;
+  border-radius:17px;
+  background:rgba(139,92,246,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+}
+
+.plan-info{
+  flex:1;
+}
+
+.plan-info strong{
+  font-size:14px;
+}
+
+.plan-info p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.plan-percent{
+  font-size:13px;
+  font-weight:900;
+}
+
+.plan-progress{
+  margin-top:14px;
+}
+
+.plan-numbers{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:6px;
+}
+
+.plan-analysis{
+  margin-top:12px;
+  padding:11px;
+  border-radius:14px;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.plan-analysis.good{
+  background:rgba(53,211,153,.08);
+  color:#9de9c9;
+}
+
+.plan-analysis.warn{
+  background:rgba(251,191,36,.08);
+  color:#f5d98a;
+}
+
+.plan-analysis.bad{
+  background:rgba(251,113,133,.08);
+  color:#f5a7b4;
+}
+
+/* =========================
+   ASSISTANT
+========================= */
+
+.assistant-page{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.chat-area{
+  flex:1;
+  overflow-y:auto;
+  padding:12px 18px 10px;
+  scrollbar-width:none;
+}
+
+.chat-area::-webkit-scrollbar{
+  display:none;
+}
+
+.bot-message,
+.user-message{
+  max-width:86%;
+  padding:12px 14px;
+  border-radius:18px;
+  font-size:12px;
+  line-height:1.7;
+  margin-bottom:9px;
+  animation:messageIn .25s ease;
+}
+
+.bot-message{
+  background:var(--surface2);
+  border-bottom-right-radius:6px;
+}
+
+.user-message{
+  background:var(--purple);
+  margin-right:auto;
+  border-bottom-left-radius:6px;
+}
+
+.quick-prompts{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:8px 18px;
+  scrollbar-width:none;
+}
+
+.quick-prompts::-webkit-scrollbar{
+  display:none;
+}
+
+.quick{
+  flex-shrink:0;
+  padding:9px 12px;
+  border-radius:13px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:#ddd;
+  font-size:10px;
+}
+
+.chat-input-wrap{
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom));
+  display:flex;
+  gap:8px;
+  border-top:1px solid var(--border);
+  background:rgba(9,9,13,.96);
+}
+
+.chat-input{
+  flex:1;
+  min-width:0;
+  height:48px;
+  border-radius:17px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:white;
+  padding:0 15px;
+  outline:none;
+}
+
+.send-btn{
+  width:48px;
+  height:48px;
+  border-radius:17px;
+  background:var(--purple);
+  color:white;
+  font-size:18px;
+}
+
+.typing{
+  display:flex;
+  gap:4px;
+  align-items:center;
+}
+
+.typing i{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#aaa;
+  animation:typing .8s infinite alternate;
+}
+
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+
+@keyframes typing{
+  to{opacity:.2;transform:translateY(-2px)}
+}
+
+@keyframes messageIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+
+/* =========================
+   MODAL
+========================= */
+
+dialog{
+  width:min(94%,480px);
+  max-height:88vh;
+  padding:0;
+  border:0;
+  border-radius:26px;
+  background:#15151c;
+  color:white;
+  box-shadow:0 30px 100px rgba(0,0,0,.6);
+  overflow:hidden;
+}
+
+dialog::backdrop{
+  background:rgba(0,0,0,.68);
+  backdrop-filter:blur(5px);
+}
+
+.modal{
+  padding:20px;
+  max-height:88vh;
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+
+.modal::-webkit-scrollbar{
+  display:none;
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.modal-title{
+  font-size:19px;
+  font-weight:900;
+}
+
+.close-btn{
+  width:38px;
+  height:38px;
+  border-radius:13px;
+  background:var(--surface3);
+  color:white;
+  font-size:18px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:8px;
+  margin-top:20px;
+}
+
+.modal-actions .btn{
+  flex:1;
+}
+
+.icon-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:7px;
+  margin-top:8px;
+}
+
+.icon-choice{
+  height:42px;
+  border-radius:12px;
+  background:var(--surface2);
+  color:white;
+  border:1px solid transparent;
+  font-size:19px;
+}
+
+.icon-choice.selected{
+  border-color:var(--purple);
+  background:rgba(139,92,246,.13);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:90px;
+  padding:13px 15px;
+  border-radius:16px;
+  background:#25252e;
+  border:1px solid var(--border);
+  box-shadow:0 15px 40px rgba(0,0,0,.4);
+  font-size:12px;
+  z-index:100;
+  transform:translateY(20px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+.toast.show{
+  transform:none;
+  opacity:1;
+}
+
+.toast.good{
+  border-color:rgba(53,211,153,.25);
+}
+
+.toast.bad{
+  border-color:rgba(251,113,133,.25);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-height:700px){
+  .safe-number{font-size:29px}
+  .home-grid{margin-top:7px}
+  .mini-card{min-height:75px;padding:11px}
+  .section-head{margin-top:8px}
+  .goal-mini{padding:9px 12px}
+  .ask-card{padding:11px 14px}
+}
+
+@media(min-width:521px){
+  body{
+    background:#050507;
+  }
+
+  .app{
+    border-left:1px solid #17171d;
+    border-right:1px solid #17171d;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =========================
+       ONBOARDING
+  ========================== -->
+
+  <section id="onboarding" class="screen active">
+    <div class="onboard-box">
+
+      <div class="logo">⚖️</div>
+
+      <div class="onboard-title">أهلًا في وِزنة</div>
+      <div class="onboard-desc">
+        خلنا نرتب وضعك المالي بطريقة بسيطة.
+        ما تحتاج تربط بنكك ولا تسوي حساب.
+      </div>
+
+      <div class="steps" id="onboardSteps">
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+
+      <div id="onboardContent"></div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       HOME
+  ========================== -->
+
+  <section id="home" class="screen">
+    <div class="page">
+
+      <div class="home-scroll">
+
+        <div class="greeting">
+          <div>
+            <div class="greeting-small" id="greetingSmall">مساء الخير</div>
+            <div class="greeting-name">وضعك المالي 👋</div>
+          </div>
+
+          <button type="button" class="home-settings" data-action="settings">
+            ⚙️
+          </button>
+        </div>
+
+        <div class="card safe-card">
+
+          <div class="safe-label">المتاح الآمن لك الآن</div>
+
+          <div class="safe-number">
+            <span id="safeAmount">0</span>
+            <span>ر.س</span>
+          </div>
+
+          <div class="safe-meta">
+            <div class="pill">
+              📅 <span id="daysSalary">--</span> يوم للراتب
+            </div>
+
+            <div class="pill">
+              💳 <span id="monthlyDebtHome">0</span> أقساط
+            </div>
+          </div>
+
+          <div class="insight">
+            <div class="insight-icon" id="insightIcon">💡</div>
+            <div class="insight-text" id="insightText">
+              أضف بياناتك وبأعطيك أول نصيحة مالية.
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="card daily-coach">
+          <div class="daily-top">
+            <div>
+              <div class="daily-kicker">حدك اليومي الآمن</div>
+              <div class="daily-value"><span id="dailySafeHome">0</span> <small>ر.س</small></div>
+            </div>
+            <div class="daily-status" id="dailyStatusHome">نحسب لك...</div>
+          </div>
+          <div class="daily-meta">
+            <div class="daily-stat"><span>صرفك اليوم</span><strong id="todaySpentHome">0 ر.س</strong></div>
+            <div class="daily-stat"><span>المتبقي لليوم</span><strong id="todayLeftHome">0 ر.س</strong></div>
+          </div>
+          <div class="daily-progress"><i id="dailyProgressHome"></i></div>
+          <div class="daily-note" id="dailyNoteHome">أحسب لك حدًا يحمي راتبك ويترك لك مساحة تعيش.</div>
+          <div class="daily-actions">
+            <button type="button" class="daily-buy" data-action="purchase-check">🛍️ أقدر أشتري؟</button>
+            <button type="button" class="daily-ask" data-action="assistant">اسأل وِزنة</button>
+          </div>
+        </div>
+
+        <div class="home-grid">
+
+          <div class="card mini-card">
+            <div class="mini-title">الراتب</div>
+            <div class="mini-value">
+              <span id="salaryHome">0</span>
+              <small>ر.س</small>
+            </div>
+          </div>
+
+          <div class="card mini-card">
+            <div class="mini-title">التزامات شهرية</div>
+            <div class="mini-value">
+              <span id="commitmentsHome">0</span>
+              <small>ر.س</small>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card score-card" style="margin-top:10px">
+
+          <div class="score-ring" id="scoreRing">
+            <span id="scoreValue">0</span>
+          </div>
+
+          <div class="score-info">
+            <strong id="scoreTitle">نحسب وضعك...</strong>
+            <p id="scoreText">كل ما تحسن توزيع فلوسك يرتفع تقييمك.</p>
+          </div>
+
+        </div>
+
+        <div class="section-head">
+          <strong>محافظك</strong>
+          <button type="button" class="link-btn" data-action="budgets">
+            عرض الكل
+          </button>
+        </div>
+
+        <div id="homeBudgets" class="envelopes"></div>
+
+        <div class="section-head">
+          <strong>هدفك القادم</strong>
+          <button type="button" class="link-btn" data-action="savings">
+            الادخار
+          </button>
+        </div>
+
+        <div id="homeGoal"></div>
+
+        <button type="button" class="card ask-card" data-action="assistant">
+
+          <div class="ask-icon">🤖</div>
+
+          <div class="ask-info">
+            <strong>اسأل وِزنة</strong>
+            <p>أقدر أشتري؟ كيف أوفر؟ وين تروح فلوسي؟</p>
+          </div>
+
+          <div class="arrow">←</div>
+
+        </button>
+
+      </div>
+
+      <nav class="bottom-nav">
+        <button type="button" class="nav-btn active" data-page="home">
+          🏠
+          <span>الرئيسية</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-page="budgets">
+          🧺
+          <span>المحافظ</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-page="debts">
+          💳
+          <span>الأقساط</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-page="savings">
+          🎯
+          <span>الادخار</span>
+        </button>
+
+        <button type="button" class="nav-btn" data-page="more">
+          •••
+          <span>المزيد</span>
+        </button>
+      </nav>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       BUDGETS
+  ========================== -->
+
+  <section id="budgets" class="screen">
+    <div class="page">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">محافظي</div>
+          <div class="page-subtitle">وزّع راتبك قبل ما يضيع</div>
+        </div>
+
+        <button type="button" class="icon-btn" data-action="add-budget">
+          +
+        </button>
+      </div>
+
+      <div class="scroll-area">
+        <div id="budgetsList" class="list"></div>
+      </div>
+
+      <nav class="bottom-nav">
+        <button type="button" class="nav-btn" data-page="home">🏠<span>الرئيسية</span></button>
+        <button type="button" class="nav-btn active" data-page="budgets">🧺<span>المحافظ</span></button>
+        <button type="button" class="nav-btn" data-page="debts">💳<span>الأقساط</span></button>
+        <button type="button" class="nav-btn" data-page="savings">🎯<span>الادخار</span></button>
+        <button type="button" class="nav-btn" data-page="more">•••<span>المزيد</span></button>
+      </nav>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       BUDGET DETAIL
+  ========================== -->
+
+  <section id="budgetDetail" class="screen">
+    <div class="page">
+
+      <div class="page-header">
+        <button type="button" class="icon-btn" data-action="back-budget">
+          →
+        </button>
+
+        <div style="flex:1;text-align:center">
+          <div class="page-title" style="font-size:18px" id="budgetDetailHeader">
+            المحفظة
+          </div>
+        </div>
+
+        <button type="button" class="icon-btn" data-action="edit-current-budget">
+          ✏️
+        </button>
+      </div>
+
+      <div class="scroll-area" id="budgetDetailContent"></div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       DEBTS
+  ========================== -->
+
+  <section id="debts" class="screen">
+    <div class="page">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">الأقساط</div>
+          <div class="page-subtitle">خلك عارف وش عليك</div>
+        </div>
+
+        <button type="button" class="icon-btn" data-action="add-debt">
+          +
+        </button>
+      </div>
+
+      <div class="scroll-area">
+        <div id="debtSummary"></div>
+        <div id="debtsList" class="list" style="margin-top:10px"></div>
+      </div>
+
+      <nav class="bottom-nav">
+        <button type="button" class="nav-btn" data-page="home">🏠<span>الرئيسية</span></button>
+        <button type="button" class="nav-btn" data-page="budgets">🧺<span>المحافظ</span></button>
+        <button type="button" class="nav-btn active" data-page="debts">💳<span>الأقساط</span></button>
+        <button type="button" class="nav-btn" data-page="savings">🎯<span>الادخار</span></button>
+        <button type="button" class="nav-btn" data-page="more">•••<span>المزيد</span></button>
+      </nav>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       SAVINGS
+  ========================== -->
+
+  <section id="savings" class="screen">
+    <div class="page">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">خطط الادخار</div>
+          <div class="page-subtitle">خل هدفك له خطة، مو مجرد أمنية</div>
+        </div>
+
+        <button type="button" class="icon-btn" data-action="add-saving">
+          +
+        </button>
+      </div>
+
+      <div class="scroll-area">
+
+        <div class="card savings-hero">
+          <div class="savings-hero-title">المتاح المتوقع للادخار شهريًا</div>
+          <div class="savings-hero-value">
+            <span id="availableSaving">0</span> ر.س
+          </div>
+          <div class="savings-hero-desc" id="savingHeroDesc">
+            يعتمد على راتبك والتزاماتك وأقساطك ومحافظك.
+          </div>
+        </div>
+
+        <div id="savingsList" class="list"></div>
+
+      </div>
+
+      <nav class="bottom-nav">
+        <button type="button" class="nav-btn" data-page="home">🏠<span>الرئيسية</span></button>
+        <button type="button" class="nav-btn" data-page="budgets">🧺<span>المحافظ</span></button>
+        <button type="button" class="nav-btn" data-page="debts">💳<span>الأقساط</span></button>
+        <button type="button" class="nav-btn active" data-page="savings">🎯<span>الادخار</span></button>
+        <button type="button" class="nav-btn" data-page="more">•••<span>المزيد</span></button>
+      </nav>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       MORE
+  ========================== -->
+
+  <section id="more" class="screen">
+    <div class="page">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">المزيد</div>
+          <div class="page-subtitle">كل أدوات وِزنة</div>
+        </div>
+      </div>
+
+      <div class="scroll-area">
+
+        <div class="list">
+
+          <button type="button" class="card row-card" data-action="assistant">
+            <div class="row-icon">🤖</div>
+            <div class="row-main">
+              <div class="row-name">اسأل وِزنة</div>
+              <div class="row-sub">خل وِزنة تساعدك تاخذ القرار</div>
+            </div>
+            <div>←</div>
+          </button>
+
+          <button type="button" class="card row-card" data-action="activity">
+            <div class="row-icon">📊</div>
+            <div class="row-main">
+              <div class="row-name">الحركة المالية</div>
+              <div class="row-sub">شوف كل دخلك ومصاريفك</div>
+            </div>
+            <div>←</div>
+          </button>
+
+          <button type="button" class="card row-card" data-action="settings">
+            <div class="row-icon">⚙️</div>
+            <div class="row-main">
+              <div class="row-name">الإعدادات</div>
+              <div class="row-sub">الراتب، يوم الراتب، البيانات</div>
+            </div>
+            <div>←</div>
+          </button>
+
+        </div>
+
+      </div>
+
+      <nav class="bottom-nav">
+        <button type="button" class="nav-btn" data-page="home">🏠<span>الرئيسية</span></button>
+        <button type="button" class="nav-btn" data-page="budgets">🧺<span>المحافظ</span></button>
+        <button type="button" class="nav-btn" data-page="debts">💳<span>الأقساط</span></button>
+        <button type="button" class="nav-btn" data-page="savings">🎯<span>الادخار</span></button>
+        <button type="button" class="nav-btn active" data-page="more">•••<span>المزيد</span></button>
+      </nav>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       ACTIVITY
+  ========================== -->
+
+  <section id="activity" class="screen">
+    <div class="page">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">الحركة المالية</div>
+          <div class="page-subtitle">كل شيء سجلته في وِزنة</div>
+        </div>
+
+        <button type="button" class="icon-btn" data-action="back-more">
+          →
+        </button>
+      </div>
+
+      <div class="scroll-area">
+        <div id="activityList" class="list"></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       SETTINGS
+  ========================== -->
+
+  <section id="settings" class="screen">
+    <div class="page">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">الإعدادات</div>
+          <div class="page-subtitle">بياناتك الأساسية</div>
+        </div>
+
+        <button type="button" class="icon-btn" data-action="back-more">
+          →
+        </button>
+      </div>
+
+      <div class="scroll-area">
+
+        <div class="card" style="padding:18px">
+
+          <div class="form-group">
+            <label class="label">الراتب الشهري</label>
+            <input id="settingsSalary" class="input" type="number" inputmode="decimal" placeholder="مثال: 7000">
+          </div>
+
+          <div class="form-group">
+            <label class="label">يوم نزول الراتب</label>
+            <input id="settingsSalaryDay" class="input" type="number" min="1" max="31" inputmode="numeric" placeholder="27">
+          </div>
+
+          <button type="button" class="btn btn-primary" style="width:100%" data-action="save-settings">
+            حفظ التغييرات
+          </button>
+
+        </div>
+
+        <div class="card" style="padding:18px;margin-top:12px">
+
+          <strong>بيانات وِزنة</strong>
+
+          <p style="color:var(--muted);font-size:11px;line-height:1.7">
+            بياناتك محفوظة على جهازك فقط.
+            ما فيه تسجيل دخول ولا يتم إرسال بياناتك لأي مكان.
+          </p>
+
+          <button type="button" class="btn btn-danger" style="width:100%" data-action="reset-data">
+            حذف كل بياناتي
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       ASSISTANT
+  ========================== -->
+
+  <section id="assistant" class="screen">
+
+    <div class="assistant-page">
+
+      <div class="page-header">
+        <div>
+          <div class="page-title">وِزنة 🤖</div>
+          <div class="page-subtitle">خلنا نشوفها سوا</div>
+        </div>
+
+        <button type="button" class="icon-btn" data-action="back-more">
+          →
+        </button>
+      </div>
+
+      <div class="chat-area" id="chatArea"></div>
+
+      <div class="quick-prompts">
+
+        <button type="button" class="quick" data-question="أقدر أشتري هذا؟">
+          💳 أقدر أشتري؟
+        </button>
+
+        <button type="button" class="quick" data-question="كيف وضعي المالي؟">
+          💰 كيف وضعي؟
+        </button>
+
+        <button type="button" class="quick" data-question="وين تروح فلوسي؟">
+          📉 وين تروح فلوسي؟
+        </button>
+
+        <button type="button" class="quick" data-question="كيف أوفر؟">
+          🎯 كيف أوفر؟
+        </button>
+
+      </div>
+
+      <div class="chat-input-wrap">
+
+        <input
+          id="chatInput"
+          class="chat-input"
+          type="text"
+          autocomplete="off"
+          placeholder="اكتب سؤالك..."
+        >
+
+        <button type="button" class="send-btn" data-action="send-chat">
+          ↑
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MODAL
+  ========================== -->
+
+  <dialog id="modal">
+    <div class="modal" id="modalContent"></div>
+  </dialog>
+
+
+  <!-- TOAST -->
+
+  <div id="toast" class="toast"></div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   وِزنة V11
+   كل الأحداث مربوطة بـ addEventListener
+   لا يوجد inline onclick
+========================================================= */
+
+const STORAGE_KEY = "wiznah_v11";
+
+const DEFAULT_STATE = {
+  onboarded:false,
+  onboardStep:0,
+  salary:0,
+  salaryDay:27,
+  commitments:[],
+  debts:[],
+  budgets:[],
+  transactions:[],
+  savingsPlans:[],
+  currentPage:"home"
+};
+
+let state = loadState();
+
+let selectedIcon = "🧺";
+let currentBudgetId = null;
+let editingType = null;
+let editingId = null;
+let toastTimer = null;
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function loadState(){
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(!saved){
+      return structuredClone(DEFAULT_STATE);
+    }
+
+    const parsed = JSON.parse(saved);
+
+    return {
+      ...structuredClone(DEFAULT_STATE),
+      ...parsed,
+      commitments:Array.isArray(parsed.commitments) ? parsed.commitments : [],
+      debts:Array.isArray(parsed.debts) ? parsed.debts : [],
+      budgets:Array.isArray(parsed.budgets) ? parsed.budgets : [],
+      transactions:Array.isArray(parsed.transactions) ? parsed.transactions : [],
+      savingsPlans:Array.isArray(parsed.savingsPlans) ? parsed.savingsPlans : []
+    };
+
+  }catch(error){
+    console.error(error);
+    return structuredClone(DEFAULT_STATE);
+  }
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function id(){
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+}
+
+function money(value){
+  const n = Number(value) || 0;
+
+  return new Intl.NumberFormat("ar-SA",{
+    maximumFractionDigits:0
+  }).format(Math.round(n));
+}
+
+function moneyDecimal(value){
+  const n = Number(value) || 0;
+
+  return new Intl.NumberFormat("ar-SA",{
+    maximumFractionDigits:2
+  }).format(n);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function today(){
+  return new Date();
+}
+
+function monthKey(date = new Date()){
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}`;
+}
+
+function isThisMonth(timestamp){
+  return monthKey(new Date(timestamp)) === monthKey();
+}
+
+function daysUntilSalary(){
+
+  const now = new Date();
+
+  let target = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    Number(state.salaryDay) || 27
+  );
+
+  if(target <= now){
+    target = new Date(
+      now.getFullYear(),
+      now.getMonth()+1,
+      Number(state.salaryDay) || 27
+    );
+  }
+
+  return Math.max(
+    0,
+    Math.ceil((target-now)/(1000*60*60*24))
+  );
+}
+
+function monthsBetween(start,end){
+
+  const a = new Date(start);
+  const b = new Date(end);
+
+  let months =
+    (b.getFullYear()-a.getFullYear())*12 +
+    (b.getMonth()-a.getMonth());
+
+  if(b.getDate() < a.getDate()){
+    months -= .5;
+  }
+
+  return Math.max(1,months);
+}
+
+
+/* =========================================================
+   FINANCIAL CALCULATIONS
+========================================================= */
+
+function monthlyCommitments(){
+
+  return state.commitments.reduce(
+    (sum,item)=>sum + Number(item.amount || 0),
+    0
+  );
+}
+
+function monthlyDebtObligation(){
+
+  return state.debts.reduce(
+    (sum,item)=>sum + Number(item.monthlyPayment || 0),
+    0
+  );
+}
+
+function monthExpenses(){
+
+  return state.transactions
+    .filter(t=>t.type==="expense" && isThisMonth(t.date))
+    .reduce((sum,t)=>sum + Number(t.amount || 0),0);
+}
+
+function monthDebtPayments(){
+
+  return state.transactions
+    .filter(t=>t.type==="debt" && isThisMonth(t.date))
+    .reduce((sum,t)=>sum + Number(t.amount || 0),0);
+}
+
+function monthSavings(){
+
+  return state.transactions
+    .filter(t=>t.type==="saving" && isThisMonth(t.date))
+    .reduce((sum,t)=>sum + Number(t.amount || 0),0);
+}
+
+function budgetSpent(budgetId){
+
+  return state.transactions
+    .filter(t=>
+      t.type==="expense" &&
+      t.budgetId===budgetId &&
+      isThisMonth(t.date)
+    )
+    .reduce((sum,t)=>sum + Number(t.amount || 0),0);
+}
+
+function plannedBudgetTotal(){
+
+  return state.budgets.reduce(
+    (sum,b)=>sum + Number(b.amount || 0),
+    0
+  );
+}
+
+function safetyBuffer(){
+
+  const salary = Number(state.salary) || 0;
+
+  if(!salary) return 0;
+
+  return Math.max(
+    300,
+    salary * .05
+  );
+}
+
+function availableToSave(){
+
+  const salary = Number(state.salary) || 0;
+
+  const result =
+    salary
+    - monthlyCommitments()
+    - monthlyDebtObligation()
+    - plannedBudgetTotal()
+    - safetyBuffer();
+
+  return Math.max(0,result);
+}
+
+function safeAvailable(){
+
+  const salary = Number(state.salary) || 0;
+
+  if(!salary){
+    return 0;
+  }
+
+  const spent = monthExpenses();
+  const debtsPaid = monthDebtPayments();
+  const saved = monthSavings();
+
+  /*
+    نعتبر الراتب هو نقطة بداية الدورة.
+    الالتزامات والأقساط المستقبلية يتم حجزها فقط إذا لم تُدفع.
+  */
+
+  const remainingSalary =
+    salary
+    - spent
+    - debtsPaid
+    - saved
+    - monthlyCommitments();
+
+  const remainingDebt =
+    Math.max(
+      0,
+      monthlyDebtObligation() - debtsPaid
+    );
+
+  const remainingBudgets =
+    state.budgets.reduce((sum,b)=>{
+
+      const spentBudget = budgetSpent(b.id);
+
+      return sum + Math.max(
+        0,
+        Number(b.amount || 0)-spentBudget
+      );
+
+    },0);
+
+  const reserved =
+    remainingDebt
+    + remainingBudgets
+    + safetyBuffer();
+
+  return Math.max(
+    0,
+    remainingSalary-reserved
+  );
+}
+
+function financialScore(){
+
+  if(!state.salary){
+    return {
+      score:0,
+      title:"أدخل راتبك أول",
+      text:"وبعدها وِزنة يحسب وضعك المالي."
+    };
+  }
+
+  const salary = Number(state.salary);
+
+  const debtRatio =
+    monthlyDebtObligation()/salary;
+
+  const commitmentRatio =
+    monthlyCommitments()/salary;
+
+  const budgetRatio =
+    plannedBudgetTotal()/salary;
+
+  let score = 100;
+
+  score -= Math.min(35,debtRatio*70);
+  score -= Math.min(25,commitmentRatio*50);
+  score -= Math.min(25,budgetRatio*35);
+
+  if(state.savingsPlans.length===0){
+    score -= 5;
+  }
+
+  const currentSaving = monthSavings();
+
+  if(currentSaving > 0){
+    score += 5;
+  }
+
+  score = Math.max(0,Math.min(100,Math.round(score)));
+
+  let title = "ممتاز 👌";
+  let text = "توزيعك المالي جيد.";
+
+  if(score < 85){
+    title = "وضعك جيد";
+    text = "فيه مجال بسيط لتحسين توزيع راتبك.";
+  }
+
+  if(score < 70){
+    title = "نحتاج نرتبها";
+    text = "الأقساط أو الالتزامات تحتاج انتباه.";
+  }
+
+  if(score < 50){
+    title = "خلنا نهدّي الصرف";
+    text = "عندك ضغط مالي واضح هذا الشهر.";
+  }
+
+  return {score,title,text};
+}
+
+function getInsight(){
+
+  if(!state.salary){
+    return {
+      icon:"👋",
+      text:"ابدأ بالراتب، وبعدها وِزنة ترتب لك الصورة."
+    };
+  }
+
+  const safe = safeAvailable();
+  const days = daysUntilSalary();
+  const debt = monthlyDebtObligation();
+
+  if(debt > state.salary*.4){
+    return {
+      icon:"⚠️",
+      text:"الأقساط أخذت نسبة كبيرة من راتبك. خل الأولوية لتخفيف الالتزامات."
+    };
+  }
+
+  if(safe < state.salary*.1){
+    return {
+      icon:"🛑",
+      text:`المتاح الآمن صار منخفض. حاول تخفف المشتريات غير الضرورية خلال ${days} يوم القادمة.`
+    };
+  }
+
+  if(state.savingsPlans.length===0){
+    return {
+      icon:"🎯",
+      text:"عندك مساحة تبدأ هدف ادخار بسيط. حتى 300 ريال شهريًا تفرق."
+    };
+  }
+
+  if(days <= 5){
+    return {
+      icon:"⏳",
+      text:"الراتب قريب. حاول ما تسحب من المبلغ المحجوز للأقساط والمحافظ."
+    };
+  }
+
+  return {
+    icon:"✨",
+    text:"وضعك تحت السيطرة. قبل أي شراء كبير، اسأل وِزنة."
+  };
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(page){
+
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.remove("active");
+  });
+
+  const target = document.getElementById(page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  state.currentPage = page;
+  saveState();
+
+  document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.classList.toggle(
+      "active",
+      btn.dataset.page===page
+    );
+  });
+
+  renderCurrentPage();
+}
+
+function renderCurrentPage(){
+
+  renderHome();
+  renderBudgets();
+  renderDebts();
+  renderSavings();
+  renderActivity();
+  renderSettings();
+
+  if(currentBudgetId){
+    renderBudgetDetail();
+  }
+}
+
+
+/* =========================================================
+   ONBOARDING
+========================================================= */
+
+function renderOnboarding(){
+
+  const content = document.getElementById("onboardContent");
+  const dots = document.querySelectorAll("#onboardSteps .step-dot");
+
+  dots.forEach((dot,index)=>{
+    dot.classList.toggle(
+      "active",
+      index===state.onboardStep
+    );
+  });
+
+  if(state.onboardStep===0){
+
+    content.innerHTML = `
+      <div class="form-group">
+        <label class="label">كم راتبك الشهري؟</label>
+        <input id="onSalary" class="input" type="number" inputmode="decimal" placeholder="مثال: 7000">
+      </div>
+
+      <div class="form-group">
+        <label class="label">متى ينزل الراتب؟</label>
+        <input id="onSalaryDay" class="input" type="number" min="1" max="31" value="${state.salaryDay || 27}">
+        <div class="helper">مثال: إذا راتبك ينزل يوم 27 اكتب 27.</div>
+      </div>
+
+      <div class="onboard-actions">
+        <button type="button" class="btn btn-primary" data-onboard="next">
+          نبدأ 🚀
+        </button>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  if(state.onboardStep===1){
+
+    content.innerHTML = `
+      <div style="font-size:20px;font-weight:900;margin-bottom:6px">
+        عندك التزامات ثابتة؟
+      </div>
+
+      <div class="helper" style="margin-bottom:18px">
+        مثل إيجار، جوال، إنترنت، اشتراكات، أو أي مبلغ شهري ثابت.
+      </div>
+
+      <div id="onCommitments" class="list"></div>
+
+      <button type="button" class="btn btn-secondary" style="width:100%;margin-top:12px" data-onboard="add-commitment">
+        + إضافة التزام
+      </button>
+
+      <div class="onboard-actions">
+        <button type="button" class="btn btn-secondary" data-onboard="back">
+          رجوع
+        </button>
+
+        <button type="button" class="btn btn-primary" data-onboard="next">
+          التالي
+        </button>
+      </div>
+    `;
+
+    renderOnboardingCommitments();
+
+    return;
+  }
+
+
+  if(state.onboardStep===2){
+
+    content.innerHTML = `
+      <div style="font-size:20px;font-weight:900;margin-bottom:6px">
+        عندك أقساط؟
+      </div>
+
+      <div class="helper" style="margin-bottom:18px">
+        أضف القسط الشهري والمبلغ المتبقي، ووِزنة بتحسب تأثيره عليك.
+      </div>
+
+      <div id="onDebts" class="list"></div>
+
+      <button type="button" class="btn btn-secondary" style="width:100%;margin-top:12px" data-onboard="add-debt">
+        + إضافة قسط
+      </button>
+
+      <div class="onboard-actions">
+        <button type="button" class="btn btn-secondary" data-onboard="back">
+          رجوع
+        </button>
+
+        <button type="button" class="btn btn-primary" data-onboard="next">
+          التالي
+        </button>
+      </div>
+    `;
+
+    renderOnboardingDebts();
+
+    return;
+  }
+
+
+  if(state.onboardStep===3){
+
+    content.innerHTML = `
+      <div style="font-size:20px;font-weight:900;margin-bottom:6px">
+        خلاص، وِزنة جاهزة 🔥
+      </div>
+
+      <div class="helper" style="margin-bottom:20px">
+        بنحسب لك المتاح الآمن، الأقساط، المحافظ،
+        وخطط الادخار من نفس البيانات.
+      </div>
+
+      <div class="card" style="padding:16px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+          <span style="color:var(--muted);font-size:11px">راتبك</span>
+          <strong>${money(state.salary)} ر.س</strong>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+          <span style="color:var(--muted);font-size:11px">الالتزامات</span>
+          <strong>${money(monthlyCommitments())} ر.س</strong>
+        </div>
+
+        <div style="display:flex;justify-content:space-between">
+          <span style="color:var(--muted);font-size:11px">الأقساط</span>
+          <strong>${money(monthlyDebtObligation())} ر.س</strong>
+        </div>
+      </div>
+
+      <div class="onboard-actions">
+        <button type="button" class="btn btn-secondary" data-onboard="back">
+          رجوع
+        </button>
+
+        <button type="button" class="btn btn-primary" data-onboard="finish">
+          افتح وِزنة ✨
+        </button>
+      </div>
+    `;
+  }
+}
+
+function renderOnboardingCommitments(){
+
+  const el = document.getElementById("onCommitments");
+
+  if(!el) return;
+
+  if(state.commitments.length===0){
+
+    el.innerHTML = `
+      <div style="text-align:center;color:var(--muted);font-size:12px;padding:12px">
+        ما أضفت أي التزام — عادي، تقدر تضيفه لاحقًا.
+      </div>
+    `;
+
+    return;
+  }
+
+  el.innerHTML = state.commitments.map(item=>`
+    <div class="card row-card">
+
+      <div class="row-icon">🧾</div>
+
+      <div class="row-main">
+        <div class="row-name">${escapeHTML(item.name)}</div>
+        <div class="row-sub">${money(item.amount)} ر.س شهريًا</div>
+      </div>
+
+      <button type="button"
+        class="small-btn danger"
+        data-action="delete-commitment"
+        data-id="${item.id}">
+        حذف
+      </button>
+
+    </div>
+  `).join("");
+}
+
+function renderOnboardingDebts(){
+
+  const el = document.getElementById("onDebts");
+
+  if(!el) return;
+
+  if(state.debts.length===0){
+
+    el.innerHTML = `
+      <div style="text-align:center;color:var(--muted);font-size:12px;padding:12px">
+        ما عندك أقساط؟ ممتاز 👌
+      </div>
+    `;
+
+    return;
+  }
+
+  el.innerHTML = state.debts.map(item=>`
+    <div class="card row-card">
+
+      <div class="row-icon">💳</div>
+
+      <div class="row-main">
+        <div class="row-name">${escapeHTML(item.name)}</div>
+        <div class="row-sub">
+          ${money(item.monthlyPayment)} ر.س / شهر
+          · باقي ${money(item.remainingTotal)} ر.س
+        </div>
+      </div>
+
+      <button type="button"
+        class="small-btn danger"
+        data-action="delete-debt"
+        data-id="${item.id}">
+        حذف
+      </button>
+
+    </div>
+  `).join("");
+}
+
+function nextOnboarding(){
+
+  if(state.onboardStep===0){
+
+    const salary =
+      Number(document.getElementById("onSalary")?.value || 0);
+
+    const day =
+      Number(document.getElementById("onSalaryDay")?.value || 27);
+
+    if(salary<=0){
+      toast("اكتب راتبك أول عشان نحسب لك صح","bad");
+      return;
+    }
+
+    if(day<1 || day>31){
+      toast("يوم الراتب لازم يكون بين 1 و31","bad");
+      return;
+    }
+
+    state.salary = salary;
+    state.salaryDay = day;
+  }
+
+  state.onboardStep++;
+
+  saveState();
+  renderOnboarding();
+}
+
+function backOnboarding(){
+
+  if(state.onboardStep>0){
+    state.onboardStep--;
+    saveState();
+    renderOnboarding();
+  }
+}
+
+function finishOnboarding(){
+
+  state.onboarded = true;
+  state.onboardStep = 0;
+  state.currentPage = "home";
+
+  saveState();
+
+  document.getElementById("onboarding")
+    .classList.remove("active");
+
+  showPage("home");
+
+  toast("تم تجهيز وِزنة لك ✨","good");
+}
+
+
+/* =========================================================
+   MODAL SYSTEM
+========================================================= */
+
+const modal = document.getElementById("modal");
+const modalContent = document.getElementById("modalContent");
+
+function openModal(html){
+
+  modalContent.innerHTML = html;
+
+  if(!modal.open){
+    modal.showModal();
+  }
+
+  setTimeout(()=>{
+    modalContent.querySelector("input,select")?.focus();
+  },50);
+}
+
+function closeModal(){
+
+  if(modal.open){
+    modal.close();
+  }
+
+  editingType = null;
+  editingId = null;
+}
+
+modal.addEventListener("click",e=>{
+  if(e.target===modal){
+    closeModal();
+  }
+});
+
+modal.addEventListener("cancel",()=>{
+  closeModal();
+});
+
+
+/* =========================================================
+   COMMITMENTS
+========================================================= */
+
+function openCommitmentForm(idValue=null){
+
+  editingType = "commitment";
+  editingId = idValue;
+
+  const item =
+    state.commitments.find(x=>x.id===idValue);
+
+  openModal(`
+    <div class="modal-head">
+      <div class="modal-title">
+        ${item ? "تعديل الالتزام" : "إضافة التزام"}
+      </div>
+
+      <button type="button" class="close-btn" data-action="close-modal">
+        ×
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label class="label">اسم الالتزام</label>
+      <input id="modalName" class="input"
+        value="${escapeHTML(item?.name || "")}"
+        placeholder="مثال: الإنترنت">
+    </div>
+
+    <div class="form-group">
+      <label class="label">المبلغ الشهري</label>
+      <input id="modalAmount" class="input"
+        type="number"
+        inputmode="decimal"
+        value="${item?.amount || ""}"
+        placeholder="مثال: 349">
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" data-action="close-modal">
+        إلغاء
+      </button>
+
+      <button type="button" class="btn btn-primary" data-action="save-commitment">
+        حفظ
+      </button>
+    </div>
+  `);
+}
+
+function saveCommitment(){
+
+  const name =
+    document.getElementById("modalName")?.value.trim();
+
+  const amount =
+    Number(document.getElementById("modalAmount")?.value || 0);
+
+  if(!name){
+    toast("اكتب اسم الالتزام","bad");
+    return;
+  }
+
+  if(amount<=0){
+    toast("اكتب مبلغ صحيح","bad");
+    return;
+  }
+
+  if(editingId){
+
+    const item =
+      state.commitments.find(x=>x.id===editingId);
+
+    if(item){
+      item.name = name;
+      item.amount = amount;
+    }
+
+  }else{
+
+    state.commitments.push({
+      id:id(),
+      name,
+      amount,
+      icon:"🧾"
+    });
+
+  }
+
+  saveState();
+  closeModal();
+  renderCurrentPage();
+
+  if(state.onboardStep===1){
+    renderOnboarding();
+  }
+
+  toast("تم حفظ الالتزام","good");
+}
+
+
+/* =========================================================
+   DEBTS
+========================================================= */
+
+function openDebtForm(idValue=null){
+
+  editingType = "debt";
+  editingId = idValue;
+
+  const item =
+    state.debts.find(x=>x.id===idValue);
+
+  openModal(`
+    <div class="modal-head">
+
+      <div class="modal-title">
+        ${item ? "تعديل القسط" : "إضافة قسط"}
+      </div>
+
+      <button type="button" class="close-btn" data-action="close-modal">
+        ×
+      </button>
+
+    </div>
+
+    <div class="form-group">
+      <label class="label">اسم القسط</label>
+      <input id="modalDebtName" class="input"
+        value="${escapeHTML(item?.name || "")}"
+        placeholder="مثال: آيفون">
+    </div>
+
+    <div class="form-group">
+      <label class="label">المبلغ المتبقي كامل</label>
+      <input id="modalDebtRemaining" class="input"
+        type="number"
+        inputmode="decimal"
+        value="${item?.remainingTotal || ""}"
+        placeholder="مثال: 4800">
+    </div>
+
+    <div class="form-group">
+      <label class="label">القسط الشهري</label>
+      <input id="modalDebtMonthly" class="input"
+        type="number"
+        inputmode="decimal"
+        value="${item?.monthlyPayment || ""}"
+        placeholder="مثال: 400">
+    </div>
+
+    <div class="form-group">
+      <label class="label">يوم الاستحقاق</label>
+      <input id="modalDebtDay" class="input"
+        type="number"
+        min="1"
+        max="31"
+        inputmode="numeric"
+        value="${item?.dueDay || 27}"
+        placeholder="27">
+    </div>
+
+    <div class="helper">
+      عند تسجيل "سددت القسط" ينقص المبلغ المتبقي تلقائيًا.
+    </div>
+
+    <div class="modal-actions">
+
+      <button type="button" class="btn btn-secondary" data-action="close-modal">
+        إلغاء
+      </button>
+
+      <button type="button" class="btn btn-primary" data-action="save-debt">
+        حفظ
+      </button>
+
+    </div>
+  `);
+}
+
+function saveDebt(){
+
+  const name =
+    document.getElementById("modalDebtName")?.value.trim();
+
+  const remaining =
+    Number(document.getElementById("modalDebtRemaining")?.value || 0);
+
+  const monthly =
+    Number(document.getElementById("modalDebtMonthly")?.value || 0);
+
+  const due =
+    Number(document.getElementById("modalDebtDay")?.value || 27);
+
+  if(!name){
+    toast("اكتب اسم القسط","bad");
+    return;
+  }
+
+  if(remaining<=0){
+    toast("اكتب المبلغ المتبقي","bad");
+    return;
+  }
+
+  if(monthly<=0){
+    toast("اكتب القسط الشهري","bad");
+    return;
+  }
+
+  if(due<1 || due>31){
+    toast("يوم الاستحقاق غير صحيح","bad");
+    return;
+  }
+
+  if(editingId){
+
+    const item =
+      state.debts.find(x=>x.id===editingId);
+
+    if(item){
+
+      item.name = name;
+      item.monthlyPayment = monthly;
+      item.dueDay = due;
+
+      /*
+        إذا عدّل المستخدم المبلغ المتبقي،
+        نحدّثه.
+      */
+      item.remainingTotal = remaining;
+
+    }
+
+  }else{
+
+    state.debts.push({
+      id:id(),
+      name,
+      remainingTotal:remaining,
+      initialTotal:remaining,
+      monthlyPayment:monthly,
+      dueDay:due,
+      createdAt:Date.now()
+    });
+
+  }
+
+  saveState();
+  closeModal();
+  renderCurrentPage();
+
+  if(state.onboardStep===2){
+    renderOnboarding();
+  }
+
+  toast("تم حفظ القسط","good");
+}
+
+function payDebt(debtId){
+
+  const debt =
+    state.debts.find(x=>x.id===debtId);
+
+  if(!debt) return;
+
+  const amount =
+    Math.min(
+      Number(debt.monthlyPayment || 0),
+      Number(debt.remainingTotal || 0)
+    );
+
+  if(amount<=0){
+    toast("هذا القسط مكتمل بالفعل","good");
+    return;
+  }
+
+  openModal(`
+    <div class="modal-head">
+      <div class="modal-title">تأكيد سداد القسط</div>
+      <button type="button" class="close-btn" data-action="close-modal">×</button>
+    </div>
+
+    <div style="text-align:center;padding:10px 0 20px">
+
+      <div style="font-size:44px">💳</div>
+
+      <div style="font-size:17px;font-weight:900;margin-top:10px">
+        ${escapeHTML(debt.name)}
+      </div>
+
+      <div style="font-size:27px;font-weight:950;margin-top:6px">
+        ${money(amount)} ر.س
+      </div>
+
+      <div style="color:var(--muted);font-size:11px;margin-top:5px">
+        سيبقى عليك ${money(Math.max(0,debt.remainingTotal-amount))} ر.س
+      </div>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button type="button" class="btn btn-secondary" data-action="close-modal">
+        إلغاء
+      </button>
+
+      <button type="button"
+        class="btn btn-primary"
+        data-action="confirm-pay-debt"
+        data-id="${debt.id}">
+        سددت القسط
+      </button>
+
+    </div>
+  `);
+}
+
+function confirmPayDebt(debtId){
+
+  const debt =
+    state.debts.find(x=>x.id===debtId);
+
+  if(!debt) return;
+
+  const amount =
+    Math.min(
+      Number(debt.monthlyPayment || 0),
+      Number(debt.remainingTotal || 0)
+    );
+
+  debt.remainingTotal =
+    Math.max(
+      0,
+      Number(debt.remainingTotal || 0)-amount
+    );
+
+  state.transactions.push({
+    id:id(),
+    type:"debt",
+    amount,
+    debtId:debt.id,
+    name:`قسط - ${debt.name}`,
+    date:Date.now()
+  });
+
+  saveState();
+  closeModal();
+  renderCurrentPage();
+
+  toast(`تم تسجيل سداد ${money(amount)} ر.س ✓`,"good");
+}
+
+
+/* =========================================================
+   BUDGETS
+========================================================= */
+
+const ICONS = [
+  "🍔","☕","🚗","⛽","🎮","🛒",
+  "🏠","📱","🛍️","💊","✈️","🎬"
+];
+
+function openBudgetForm(idValue=null){
+
+  editingType = "budget";
+  editingId = idValue;
+
+  const item =
+    state.budgets.find(x=>x.id===idValue);
+
+  selectedIcon = item?.icon || "🧺";
+
+  openModal(`
+    <div class="modal-head">
+
+      <div class="modal-title">
+        ${item ? "تعديل المحفظة" : "محفظة جديدة"}
+      </div>
+
+      <button type="button" class="close-btn" data-action="close-modal">
+        ×
+      </button>
+
+    </div>
+
+    <div class="form-group">
+      <label class="label">اسم المحفظة</label>
+      <input id="modalBudgetName" class="input"
+        value="${escapeHTML(item?.name || "")}"
+        placeholder="مثال: قهوة">
+    </div>
+
+    <div class="form-group">
+      <label class="label">الميزانية الشهرية</label>
+      <input id="modalBudgetAmount" class="input"
+        type="number"
+        inputmode="decimal"
+        value="${item?.amount || ""}"
+        placeholder="مثال: 500">
+    </div>
+
+    <div class="form-group">
+
+      <label class="label">الأيقونة</label>
+
+      <div class="icon-grid">
+
+        ${ICONS.map(icon=>`
+          <button type="button"
+            class="icon-choice ${icon===selectedIcon ? "selected":""}"
+            data-icon="${icon}">
+            ${icon}
+          </button>
+        `).join("")}
+
+      </div>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button type="button" class="btn btn-secondary" data-action="close-modal">
+        إلغاء
+      </button>
+
+      <button type="button" class="btn btn-primary" data-action="save-budget">
+        حفظ
+      </button>
+
+    </div>
+  `);
+}
+
+function saveBudget(){
+
+  const name =
+    document.getElementById("modalBudgetName")?.value.trim();
+
+  const amount =
+    Number(document.getElementById("modalBudgetAmount")?.value || 0);
+
+  if(!name){
+    toast("اكتب اسم المحفظة","bad");
+    return;
+  }
+
+  if(amount<=0){
+    toast("اكتب ميزانية صحيحة","bad");
+    return;
+  }
+
+  if(editingId){
+
+    const item =
+      state.budgets.find(x=>x.id===editingId);
+
+    if(item){
+      item.name = name;
+      item.amount = amount;
+      item.icon = selectedIcon;
+    }
+
+  }else{
+
+    state.budgets.push({
+      id:id(),
+      name,
+      amount,
+      icon:selectedIcon
+    });
+
+  }
+
+  saveState();
+  closeModal();
+  renderCurrentPage();
+
+  toast("تم حفظ المحفظة","good");
+}
+
+function deleteBudget(budgetId){
+
+  const budget =
+    state.budgets.find(x=>x.id===budgetId);
+
+  if(!budget) return;
+
+  openConfirm(
+    "حذف المحفظة؟",
+    `سيتم حذف "${budget.name}" من المحافظ. العمليات السابقة لن تُحذف.`,
+    ()=>{
+      state.budgets =
+        state.budgets.filter(x=>x.id!==budgetId);
+
+      saveState();
+      renderCurrentPage();
+
+      toast("تم حذف المحفظة");
+    }
+  );
+}
+
+function openBudgetDetail(budgetId){
+
+  currentBudgetId = budgetId;
+
+  showPage("budgetDetail");
+
+  renderBudgetDetail();
+}
+
+function renderBudgetDetail(){
+
+  const budget =
+    state.budgets.find(x=>x.id===currentBudgetId);
+
+  const content =
+    document.getElementById("budgetDetailContent");
+
+  const header =
+    document.getElementById("budgetDetailHeader");
+
+  if(!budget || !content) return;
+
+  header.textContent = budget.name;
+
+  const spent =
+    budgetSpent(budget.id);
+
+  const remaining =
+    Math.max(0,Number(budget.amount)-spent);
+
+  const percent =
+    Math.min(100,(spent/Number(budget.amount))*100);
+
+  const transactions =
+    state.transactions
+      .filter(t=>t.type==="expense" && t.budgetId===budget.id)
+      .sort((a,b)=>b.date-a.date);
+
+  content.innerHTML = `
+
+    <div class="card detail-hero">
+
+      <div class="detail-icon">${budget.icon}</div>
+
+      <div class="detail-name">${escapeHTML(budget.name)}</div>
+
+      <div class="detail-amount">
+        ${money(remaining)}
+        <span>ر.س متبقي</span>
+      </div>
+
+      <div class="progress" style="height:8px;margin-top:15px">
+        <i style="width:${percent}%"></i>
+      </div>
+
+      <div class="detail-stats">
+
+        <div class="detail-stat">
+          <strong>${money(budget.amount)}</strong>
+          <span>الميزانية</span>
+        </div>
+
+        <div class="detail-stat">
+          <strong>${money(spent)}</strong>
+          <span>المصروف</span>
+        </div>
+
+        <div class="detail-stat">
+          <strong>${Math.round(percent)}%</strong>
+          <span>الاستخدام</span>
+        </div>
+
+      </div>
+
+      <button type="button"
+        class="btn btn-primary"
+        style="width:100%;margin-top:14px"
+        data-action="add-expense"
+        data-id="${budget.id}">
+        + أضف مصروف
+      </button>
+
+    </div>
+
+    <div class="section-head">
+      <strong>المصاريف</strong>
+
+      <button type="button"
+        class="link-btn"
+        data-action="delete-budget"
+        data-id="${budget.id}">
+        حذف المحفظة
+      </button>
+    </div>
+
+    ${
+      transactions.length
+      ?
+      `<div class="list">
+        ${transactions.map(t=>`
+          <div class="card row-card">
+
+            <div class="row-icon">💸</div>
+
+            <div class="row-main">
+              <div class="row-name">
+                ${escapeHTML(t.name)}
+              </div>
+
+              <div class="row-sub">
+                ${new Date(t.date).toLocaleDateString("ar-SA")}
+              </div>
+            </div>
+
+            <div class="row-end">
+              <div class="row-amount">
+                -${money(t.amount)}
+              </div>
+
+              <button type="button"
+                class="small-btn danger"
+                data-action="delete-transaction"
+                data-id="${t.id}">
+                حذف
+              </button>
+            </div>
+
+          </div>
+        `).join("")}
+      </div>`
+      :
+      `
+      <div class="empty card">
+        <div class="empty-icon">✨</div>
+        <strong>لسه ما صرفت من المحفظة</strong>
+        أول مصروف تضيفه بيظهر هنا.
+      </div>
+      `
+    }
+  `;
+}
+
+function addExpense(budgetId){
+
+  const budget =
+    state.budgets.find(x=>x.id===budgetId);
+
+  if(!budget) return;
+
+  openModal(`
+    <div class="modal-head">
+
+      <div class="modal-title">
+        مصروف من ${escapeHTML(budget.name)}
+      </div>
+
+      <button type="button" class="close-btn" data-action="close-modal">
+        ×
+      </button>
+
+    </div>
+
+    <div class="form-group">
+      <label class="label">وش صرفت؟</label>
+
+      <input id="expenseName"
+        class="input"
+        placeholder="مثال: قهوة">
+    </div>
+
+    <div class="form-group">
+      <label class="label">المبلغ</label>
+
+      <input id="expenseAmount"
+        class="input"
+        type="number"
+        inputmode="decimal"
+        placeholder="مثال: 25">
+    </div>
+
+    <div class="modal-actions">
+
+      <button type="button" class="btn btn-secondary" data-action="close-modal">
+        إلغاء
+      </button>
+
+      <button type="button"
+        class="btn btn-primary"
+        data-action="save-expense"
+        data-id="${budget.id}">
+        إضافة
+      </button>
+
+    </div>
+  `);
+}
+
+function saveExpense(budgetId){
+
+  const name =
+    document.getElementById("expenseName")?.value.trim();
+
+  const amount =
+    Number(document.getElementById("expenseAmount")?.value || 0);
+
+  if(!name){
+    toast("اكتب وش صرفت","bad");
+    return;
+  }
+
+  if(amount<=0){
+    toast("اكتب مبلغ صحيح","bad");
+    return;
+  }
+
+  state.transactions.push({
+    id:id(),
+    type:"expense",
+    amount,
+    name,
+    budgetId,
+    date:Date.now()
+  });
+
+  saveState();
+  closeModal();
+  renderCurrentPage();
+
+  toast("تم تسجيل المصروف","good");
+}
+
+function deleteTransaction(transactionId){
+
+  openConfirm(
+    "حذف العملية؟",
+    "سيتم حذف هذه العملية من سجلك.",
+    ()=>{
+      state.transactions =
+        state.transactions.filter(
+          x=>x.id!==transactionId
+        );
+
+      saveState();
+      renderCurrentPage();
+
+      toast("تم حذف العملية");
+    }
+  );
+}
+
+
+/* =========================================================
+   SAVINGS PLANS
+========================================================= */
+
+function openSavingForm(idValue=null){
+
+  editingType = "saving";
+  editingId = idValue;
+
+  const item =
+    state.savingsPlans.find(x=>x.id===idValue);
+
+  selectedIcon = item?.icon || "🎯";
+
+  openModal(`
+    <div class="modal-head">
+
+      <div class="modal-title">
+        ${item ? "تعديل هدف الادخار" : "هدف ادخار جديد"}
+      </div>
+
+      <button type="button" class="close-btn" data-action="close-modal">
+        ×
+      </button>
+
+    </div>
+
+    <div class="form-group">
+      <label class="label">وش هدفك؟</label>
+
+      <input id="savingName"
+        class="input"
+        value="${escapeHTML(item?.name || "")}"
+        placeholder="مثال: سفرة">
+    </div>
+
+    <div class="form-group">
+      <label class="label">المبلغ المطلوب</label>
+
+      <input id="savingTarget"
+        class="input"
+        type="number"
+        inputmode="decimal"
+        value="${item?.target || ""}"
+        placeholder="مثال: 6000">
+    </div>
+
+    <div class="form-group">
+      <label class="label">المبلغ المدخر حاليًا</label>
+
+      <input id="savingSaved"
+        class="input"
+        type="number"
+        inputmode="decimal"
+        value="${item?.saved || 0}"
+        placeholder="0">
+    </div>
+
+    <div class="form-group">
+      <label class="label">متى تحتاج المبلغ؟</label>
+
+      <input id="savingDeadline"
+        class="input"
+        type="date"
+        value="${item?.deadline || ""}">
+    </div>
+
+    <div class="form-group">
+
+      <label class="label">الأيقونة</label>
+
+      <div class="icon-grid">
+
+        ${["🎯","✈️","🚗","💻","🏠","🎓","💍","🎮","📱","💰","🛍️","🏖️"].map(icon=>`
+          <button type="button"
+            class="icon-choice ${icon===selectedIcon ? "selected":""}"
+            data-icon="${icon}">
+            ${icon}
+          </button>
+        `).join("")}
+
+      </div>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button type="button" class="btn btn-secondary" data-action="close-modal">
+        إلغاء
+      </button>
+
+      <button type="button" class="btn btn-primary" data-action="save-saving">
+        حفظ الخطة
+      </button>
+
+    </div>
+  `);
+}
+
+function saveSaving(){
+
+  const name =
+    document.getElementById("savingName")?.value.trim();
+
+  const target =
+    Number(document.getElementById("savingTarget")?.value || 0);
+
+  const saved =
+    Number(document.getElementById("savingSaved")?.value || 0);
+
+  const deadline =
+    document.getElementById("savingDeadline")?.value;
+
+  if(!name){
+    toast("اكتب اسم الهدف","bad");
+    return;
+  }
+
+  if(target<=0){
+    toast("اكتب مبلغ الهدف","bad");
+    return;
+  }
+
+  if(saved<0){
+    toast("المبلغ المدخر غير صحيح","bad");
+    return;
+  }
+
+  if(!deadline){
+    toast("حدد موعد الهدف","bad");
+    return;
+  }
+
+  const date = new Date(deadline);
+
+  if(date <= new Date()){
+    toast("اختار موعدًا قادمًا","bad");
+    return;
+  }
+
+  if(editingId){
+
+    const item =
+      state.savingsPlans.find(x=>x.id===editingId);
+
+    if(item){
+      item.name=name;
+      item.target=target;
+      item.saved=saved;
+      item.deadline=deadline;
+      item.icon=selectedIcon;
+    }
+
+  }else{
+
+    state.savingsPlans.push({
+      id:id(),
+      name,
+      target,
+      saved,
+      deadline,
+      icon:selectedIcon,
+      createdAt:Date.now()
+    });
+
+  }
+
+  saveState();
+  closeModal();
+  renderCurrentPage();
+
+  toast("تم حفظ خطة الادخار 🎯","good");
+}
+
+function savingsAnalysis(plan){
+
+  const remaining =
+    Math.max(
+      0,
+      Number(plan.target)-Number(plan.saved)
+    );
+
+  const months =
+    monthsBetween(
+      new Date(),
+      new Date(plan.deadline)
+    );
+
+  const monthlyNeeded =
+    remaining/months;
+
+  const available =
+    availableToSave();
+
+  const gap =
+    monthlyNeeded-available;
+
+  return {
+    remaining,
+    months,
+    monthlyNeeded,
+    available,
+    gap,
+    feasible:gap<=0
+  };
+}
+
+function deleteSaving(planId){
+
+  openConfirm(
+    "حذف الهدف؟",
+    "سيتم حذف خطة الادخار هذه.",
+    ()=>{
+      state.savingsPlans =
+        state.savingsPlans.filter(
+          x=>x.id!==planId
+        );
+
+      saveState();
+      renderCurrentPage();
+
+      toast("تم حذف الهدف");
+    }
+  );
+}
+
+
+
+function todayExpenses(){
+  const d=new Date();
+  return state.transactions
+    .filter(t=>t.type==="expense" && new Date(t.date).toDateString()===d.toDateString())
+    .reduce((sum,t)=>sum+Number(t.amount||0),0);
+}
+
+function dailySafePlan(){
+  const days=Math.max(1,daysUntilSalary());
+  const today=todayExpenses();
+  const safe=safeAvailable();
+  const beforeToday=Math.max(0,safe+today);
+  const daily=beforeToday/days;
+  const left=Math.max(0,daily-today);
+  const used=daily>0?Math.min(100,(today/daily)*100):0;
+  let status="مريح", cls="";
+  if(today>daily){status="خفف اليوم",cls="bad";}
+  else if(today>=daily*.75){status="قربت من الحد",cls="warn";}
+  return {days,today,safe,daily,left,used,status,cls};
+}
+
+function openPurchaseCheck(){
+  openModal(`
+    <div class="modal-head"><div class="modal-title">🛍️ أقدر أشتري؟</div><button type="button" class="close-btn" data-action="close-modal">×</button></div>
+    <div class="form-group"><label class="label">كم سعر الشيء؟</label><input id="purchasePrice" class="input" type="number" inputmode="decimal" placeholder="مثال: 700"></div>
+    <div class="form-group"><label class="label">وش هو؟ <span style="color:var(--muted)">(اختياري)</span></label><input id="purchaseName" class="input" placeholder="مثال: سماعة"></div>
+    <div id="purchaseResult" class="card" style="margin-top:10px;display:none"></div>
+    <div class="modal-actions"><button type="button" class="btn btn-secondary" data-action="close-modal">إلغاء</button><button type="button" class="btn btn-primary" data-action="check-purchase">احسبها لي</button></div>
+  `);
+}
+
+function checkPurchase(){
+  const price=Number(document.getElementById("purchasePrice")?.value||0);
+  const name=(document.getElementById("purchaseName")?.value||"هذا الشراء").trim();
+  const result=document.getElementById("purchaseResult");
+  if(price<=0){toast("اكتب سعر الشراء أول","bad");return;}
+  const safe=safeAvailable();
+  const after=safe-price;
+  let html="";
+  if(price<=safe*.25 && after>=safetyBuffer()){
+    html=`<div style="font-size:22px">🟢</div><strong style="color:var(--green);font-size:17px">تقدر تشتري ${escapeHTML(name)}</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">بيظل معك تقريبًا <strong>${money(after)} ر.س</strong> من المتاح الآمن.</div>`;
+  }else if(after>=0){
+    html=`<div style="font-size:22px">🟡</div><strong style="color:var(--yellow);font-size:17px">ممكن، لكن انتبه</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">تقدر حسابيًا، لكن الشراء يأخذ ${Math.round((price/Math.max(1,safe))*100)}% من متاحك الآمن. بعده يبقى ${money(after)} ر.س.</div>`;
+  }else{
+    html=`<div style="font-size:22px">🔴</div><strong style="color:var(--red);font-size:17px">ما أنصحك الآن</strong><div style="color:var(--muted);font-size:12px;margin-top:6px">السعر أعلى من متاحك الآمن بـ ${money(Math.abs(after))} ر.س. خل الشراء بعد الراتب أو خفف السعر.</div>`;
+  }
+  result.innerHTML=html; result.style.display="block";
+}
+
+/* =========================================================
+   RENDER HOME
+========================================================= */
+
+function renderHome(){
+
+  const safeEl =
+    document.getElementById("safeAmount");
+
+  if(!safeEl) return;
+
+  const safe = safeAvailable();
+
+  safeEl.textContent = money(safe);
+
+  const daily = dailySafePlan();
+  const dailyEl=document.getElementById("dailySafeHome");
+  const spentEl=document.getElementById("todaySpentHome");
+  const leftEl=document.getElementById("todayLeftHome");
+  const statusEl=document.getElementById("dailyStatusHome");
+  const progressEl=document.getElementById("dailyProgressHome");
+  const noteEl=document.getElementById("dailyNoteHome");
+  if(dailyEl) dailyEl.textContent=money(daily.daily);
+  if(spentEl) spentEl.textContent=`${money(daily.today)} ر.س`;
+  if(leftEl) leftEl.textContent=`${money(daily.left)} ر.س`;
+  if(statusEl){statusEl.textContent=daily.status;statusEl.className=`daily-status ${daily.cls}`;}
+  if(progressEl) progressEl.style.width=`${daily.used}%`;
+  if(noteEl){
+    if(!state.salary) noteEl.textContent="أضف راتبك عشان أعطيك رقمًا يوميًا يناسب وضعك.";
+    else if(daily.today>daily.daily) noteEl.textContent=`تجاوزت حد اليوم بحوالي ${money(daily.today-daily.daily)} ر.س. عادي، وِزنة توزع الباقي بدل ما تحكم عليك.`;
+    else noteEl.textContent=`قدامك ${daily.days} يوم للراتب. حاول تخلي صرفك اليوم حول ${money(daily.daily)} ر.س أو أقل.`;
+  }
+
+  document.getElementById("daysSalary").textContent =
+    daysUntilSalary();
+
+  document.getElementById("monthlyDebtHome").textContent =
+    money(monthlyDebtObligation());
+
+  document.getElementById("salaryHome").textContent =
+    money(state.salary);
+
+  document.getElementById("commitmentsHome").textContent =
+    money(monthlyCommitments());
+
+  const insight = getInsight();
+
+  document.getElementById("insightIcon").textContent =
+    insight.icon;
+
+  document.getElementById("insightText").textContent =
+    insight.text;
+
+  const score = financialScore();
+
+  document.getElementById("scoreValue").textContent =
+    score.score;
+
+  document.getElementById("scoreTitle").textContent =
+    score.title;
+
+  document.getElementById("scoreText").textContent =
+    score.text;
+
+  document.getElementById("scoreRing")
+    .style.setProperty(
+      "--score",
+      `${score.score}%`
+    );
+
+  const greetingHour = new Date().getHours();
+
+  let greeting = "هلا";
+
+  if(greetingHour >= 5 && greetingHour < 12){
+    greeting = "صباح الخير";
+  }else if(greetingHour >= 12 && greetingHour < 18){
+    greeting = "مساء الخير";
+  }else{
+    greeting = "مساء الخير";
+  }
+
+  document.getElementById("greetingSmall").textContent =
+    greeting;
+
+  renderHomeBudgets();
+  renderHomeGoal();
+}
+
+function renderHomeBudgets(){
+
+  const el =
+    document.getElementById("homeBudgets");
+
+  if(!el) return;
+
+  if(state.budgets.length===0){
+
+    el.innerHTML = `
+      <div class="envelope">
+        <div class="env-top">
+          <div class="env-icon">✨</div>
+        </div>
+
+        <div class="env-money" style="font-size:12px">
+          أضف محفظتك الأولى
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+  el.innerHTML =
+    state.budgets.slice(0,5).map(b=>{
+
+      const spent = budgetSpent(b.id);
+
+      const percent =
+        Math.min(
+          100,
+          (spent/Number(b.amount))*100
+        );
+
+      return `
+        <button type="button"
+          class="envelope"
+          data-action="open-budget"
+          data-id="${b.id}"
+          style="text-align:right;color:white">
+
+          <div class="env-top">
+            <div class="env-icon">${b.icon}</div>
+            <div class="env-name">
+              ${escapeHTML(b.name)}
+            </div>
+          </div>
+
+          <div class="env-money">
+            ${money(Math.max(0,b.amount-spent))}
+            <span style="font-size:9px;color:var(--muted)">
+              ر.س
+            </span>
+          </div>
+
+          <div class="progress">
+            <i style="width:${percent}%"></i>
+          </div>
+
+        </button>
+      `;
+    }).join("");
+}
+
+function renderHomeGoal(){
+
+  const el =
+    document.getElementById("homeGoal");
+
+  if(!el) return;
+
+  const plan =
+    state.savingsPlans[0];
+
+  if(!plan){
+
+    el.innerHTML = `
+      <button type="button"
+        class="card goal-mini"
+        style="width:100%;color:white;text-align:right"
+        data-action="add-saving">
+
+        <div class="goal-icon">🎯</div>
+
+        <div class="goal-info">
+          <div class="goal-name">
+            سو هدفك له خطة
+          </div>
+
+          <div class="goal-text">
+            مثال: سفرة بعد 3 شهور
+          </div>
+        </div>
+
+        <div>＋</div>
+
+      </button>
+    `;
+
+    return;
+  }
+
+  const a = savingsAnalysis(plan);
+
+  const percent =
+    Math.min(
+      100,
+      (Number(plan.saved)/Number(plan.target))*100
+    );
+
+  el.innerHTML = `
+    <button type="button"
+      class="card goal-mini"
+      style="width:100%;color:white;text-align:right"
+      data-action="open-saving"
+      data-id="${plan.id}">
+
+      <div class="goal-icon">${plan.icon}</div>
+
+      <div class="goal-info">
+
+        <div class="goal-name">
+          ${escapeHTML(plan.name)}
+        </div>
+
+        <div class="goal-text">
+          ${money(plan.saved)} من ${money(plan.target)}
+          · تحتاج ${money(a.monthlyNeeded)} شهريًا
+        </div>
+
+        <div class="progress">
+          <i style="width:${percent}%"></i>
+        </div>
+
+      </div>
+
+      <div class="plan-percent">
+        ${Math.round(percent)}%
+      </div>
+
+    </button>
+  `;
+}
+
+
+/* =========================================================
+   RENDER BUDGETS
+========================================================= */
+
+function renderBudgets(){
+
+  const el =
+    document.getElementById("budgetsList");
+
+  if(!el) return;
+
+  if(state.budgets.length===0){
+
+    el.innerHTML = `
+      <div class="empty card">
+        <div class="empty-icon">🧺</div>
+        <strong>ما عندك محافظ للحين</strong>
+        وزّع راتبك على محافظ مثل القهوة، السيارة، الترفيه وغيرها.
+        <button type="button"
+          class="btn btn-primary"
+          style="margin-top:16px"
+          data-action="add-budget">
+          + أول محفظة
+        </button>
+      </div>
+    `;
+
+    return;
+  }
+
+  el.innerHTML =
+    state.budgets.map(b=>{
+
+      const spent =
+        budgetSpent(b.id);
+
+      const remaining =
+        Math.max(
+          0,
+          Number(b.amount)-spent
+        );
+
+      const percent =
+        Math.min(
+          100,
+          (spent/Number(b.amount))*100
+        );
+
+      return `
+        <div class="card row-card">
+
+          <button type="button"
+            class="row-icon"
+            data-action="open-budget"
+            data-id="${b.id}">
+            ${b.icon}
+          </button>
+
+          <button type="button"
+            class="row-main"
+            data-action="open-budget"
+            data-id="${b.id}"
+            style="background:none;color:white;text-align:right">
+
+            <div class="row-name">
+              ${escapeHTML(b.name)}
+            </div>
+
+            <div class="row-sub">
+              ${money(spent)} مصروف من ${money(b.amount)}
+            </div>
+
+            <div class="progress">
+              <i style="width:${percent}%"></i>
+            </div>
+
+          </button>
+
+          <div class="row-end">
+
+            <div class="row-amount">
+              ${money(remaining)}
+            </div>
+
+            <div class="row-sub">متبقي</div>
+
+            <div class="row-actions">
+
+              <button type="button"
+                class="small-btn"
+                data-action="edit-budget"
+                data-id="${b.id}">
+                تعديل
+              </button>
+
+              <button type="button"
+                class="small-btn danger"
+                data-action="delete-budget"
+                data-id="${b.id}">
+                حذف
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+/* =========================================================
+   RENDER DEBTS
+========================================================= */
+
+function renderDebts(){
+
+  const list =
+    document.getElementById("debtsList");
+
+  const summary =
+    document.getElementById("debtSummary");
+
+  if(!list || !summary) return;
+
+  const totalRemaining =
+    state.debts.reduce(
+      (sum,d)=>sum+Number(d.remainingTotal||0),
+      0
+    );
+
+  const monthly =
+    monthlyDebtObligation();
+
+  summary.innerHTML = `
+    <div class="card" style="padding:16px">
+
+      <div style="display:flex;justify-content:space-between">
+
+        <div>
+          <div style="color:var(--muted);font-size:11px">
+            إجمالي المتبقي
+          </div>
+
+          <div style="font-size:25px;font-weight:950;margin-top:4px">
+            ${money(totalRemaining)}
+            <span style="font-size:11px;color:var(--muted)">ر.س</span>
+          </div>
+        </div>
+
+        <div style="text-align:left">
+
+          <div style="color:var(--muted);font-size:11px">
+            شهريًا
+          </div>
+
+          <div style="font-size:20px;font-weight:900;margin-top:5px">
+            ${money(monthly)}
+            <span style="font-size:10px;color:var(--muted)">ر.س</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  if(state.debts.length===0){
+
+    list.innerHTML = `
+      <div class="empty card">
+
+        <div class="empty-icon">🎉</div>
+
+        <strong>ما عندك أقساط</strong>
+
+        وضع ممتاز. إذا أخذت قسط جديد أضفه هنا
+        عشان وِزنة تحسبه لك.
+
+        <button type="button"
+          class="btn btn-primary"
+          style="margin-top:16px"
+          data-action="add-debt">
+          + إضافة قسط
+        </button>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    state.debts.map(d=>{
+
+      const percent =
+        d.initialTotal
+        ?
+        Math.min(
+          100,
+          ((d.initialTotal-d.remainingTotal)/d.initialTotal)*100
+        )
+        : 0;
+
+      const complete =
+        Number(d.remainingTotal)<=0;
+
+      return `
+        <div class="card row-card">
+
+          <div class="row-icon">💳</div>
+
+          <div class="row-main">
+
+            <div class="row-name">
+              ${escapeHTML(d.name)}
+            </div>
+
+            <div class="row-sub">
+              ${complete
+                ? "تم السداد 🎉"
+                : `${money(d.monthlyPayment)} ر.س شهريًا · يوم ${d.dueDay}`
+              }
+            </div>
+
+            <div class="progress">
+              <i style="width:${percent}%"></i>
+            </div>
+
+          </div>
+
+          <div class="row-end">
+
+            <div class="row-amount">
+              ${money(d.remainingTotal)}
+            </div>
+
+            <div class="row-sub">
+              متبقي
+            </div>
+
+            <div class="row-actions">
+
+              ${
+                !complete
+                ?
+                `
+                <button type="button"
+                  class="small-btn primary"
+                  data-action="pay-debt"
+                  data-id="${d.id}">
+                  سددت
+                </button>
+                `
+                :
+                ""
+              }
+
+              <button type="button"
+                class="small-btn"
+                data-action="edit-debt"
+                data-id="${d.id}">
+                تعديل
+              </button>
+
+              <button type="button"
+                class="small-btn danger"
+                data-action="delete-debt"
+                data-id="${d.id}">
+                حذف
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+/* =========================================================
+   RENDER SAVINGS
+========================================================= */
+
+function renderSavings(){
+
+  const list =
+    document.getElementById("savingsList");
+
+  const available =
+    document.getElementById("availableSaving");
+
+  if(!list || !available) return;
+
+  const availableValue =
+    availableToSave();
+
+  available.textContent =
+    money(availableValue);
+
+  document.getElementById("savingHeroDesc").textContent =
+    availableValue>0
+    ?
+    "هذا تقدير محافظ بعد الالتزامات والأقساط والمحافظ واحتياطي أمان."
+    :
+    "حاليًا الأفضل نرتب المصاريف قبل ما نحط هدف ادخار جديد.";
+
+  if(state.savingsPlans.length===0){
+
+    list.innerHTML = `
+      <div class="empty card">
+
+        <div class="empty-icon">🎯</div>
+
+        <strong>خل فلوسك تروح لمكان واضح</strong>
+
+        مثال:
+        "أبغى أجمع 6000 لسفرة بعد 3 شهور"
+
+        <br>
+
+        وِزنة تحسب لك كم تحتاج تدخر شهريًا وهل الخطة واقعية.
+
+        <br>
+
+        <button type="button"
+          class="btn btn-primary"
+          style="margin-top:16px"
+          data-action="add-saving">
+          + أول خطة
+        </button>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    state.savingsPlans.map(plan=>{
+
+      const a =
+        savingsAnalysis(plan);
+
+      const percent =
+        Math.min(
+          100,
+          (Number(plan.saved)/Number(plan.target))*100
+        );
+
+      const analysisClass =
+        a.feasible ? "good" : "bad";
+
+      const analysisText =
+        a.feasible
+        ?
+        `🟢 الخطة واقعية. تحتاج تقريبًا ${money(a.monthlyNeeded)} ر.س شهريًا، والمتاح المتوقع للادخار ${money(a.available)} ر.س.`
+        :
+        `🔴 تحتاج ${money(a.monthlyNeeded)} ر.س شهريًا، بينما المتاح المتوقع ${money(a.available)} ر.س. جرّب تمديد الموعد أو تخفيض الهدف.`;
+
+      return `
+        <div class="card plan-card">
+
+          <div class="plan-top">
+
+            <div class="plan-icon">
+              ${plan.icon}
+            </div>
+
+            <div class="plan-info">
+
+              <strong>
+                ${escapeHTML(plan.name)}
+              </strong>
+
+              <p>
+                الموعد:
+                ${new Date(plan.deadline).toLocaleDateString("ar-SA")}
+              </p>
+
+            </div>
+
+            <div class="plan-percent">
+              ${Math.round(percent)}%
+            </div>
+
+          </div>
+
+          <div class="plan-progress">
+
+            <div class="progress" style="height:8px">
+              <i style="width:${percent}%"></i>
+            </div>
+
+            <div class="plan-numbers">
+              <span>
+                ${money(plan.saved)} ر.س
+              </span>
+
+              <span>
+                ${money(plan.target)} ر.س
+              </span>
+            </div>
+
+          </div>
+
+          <div class="plan-analysis ${analysisClass}">
+            ${analysisText}
+          </div>
+
+          <div class="row-actions" style="margin-top:12px">
+
+            <button type="button"
+              class="small-btn primary"
+              data-action="edit-saving"
+              data-id="${plan.id}">
+              تعديل
+            </button>
+
+            <button type="button"
+              class="small-btn danger"
+              data-action="delete-saving"
+              data-id="${plan.id}">
+              حذف
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function renderActivity(){
+
+  const el =
+    document.getElementById("activityList");
+
+  if(!el) return;
+
+  const transactions =
+    [...state.transactions]
+      .sort((a,b)=>b.date-a.date);
+
+  if(transactions.length===0){
+
+    el.innerHTML = `
+      <div class="empty card">
+
+        <div class="empty-icon">📊</div>
+
+        <strong>ما عندك عمليات للحين</strong>
+
+        أول مصروف أو قسط تسجله بيظهر هنا.
+
+      </div>
+    `;
+
+    return;
+  }
+
+  el.innerHTML =
+    transactions.map(t=>{
+
+      let icon = "💸";
+      let prefix = "-";
+
+      if(t.type==="debt"){
+        icon = "💳";
+      }
+
+      if(t.type==="saving"){
+        icon = "🎯";
+      }
+
+      if(t.type==="income"){
+        icon = "💰";
+        prefix = "+";
+      }
+
+      return `
+        <div class="card row-card">
+
+          <div class="row-icon">
+            ${icon}
+          </div>
+
+          <div class="row-main">
+
+            <div class="row-name">
+              ${escapeHTML(t.name)}
+            </div>
+
+            <div class="row-sub">
+              ${new Date(t.date).toLocaleDateString("ar-SA")}
+            </div>
+
+          </div>
+
+          <div class="row-end">
+
+            <div class="row-amount">
+              ${prefix}${money(t.amount)}
+            </div>
+
+            <button type="button"
+              class="small-btn danger"
+              data-action="delete-transaction"
+              data-id="${t.id}">
+              حذف
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function renderSettings(){
+
+  const salary =
+    document.getElementById("settingsSalary");
+
+  const day =
+    document.getElementById("settingsSalaryDay");
+
+  if(!salary || !day) return;
+
+  /*
+    لا نكتب القيمة كل مرة أثناء الكتابة.
+    نعرضها فقط إذا الصفحة ليست في حالة focus.
+  */
+
+  if(document.activeElement!==salary){
+    salary.value = state.salary || "";
+  }
+
+  if(document.activeElement!==day){
+    day.value = state.salaryDay || 27;
+  }
+}
+
+function saveSettings(){
+
+  const salary =
+    Number(document.getElementById("settingsSalary")?.value || 0);
+
+  const day =
+    Number(document.getElementById("settingsSalaryDay")?.value || 27);
+
+  if(salary<=0){
+    toast("اكتب راتب صحيح","bad");
+    return;
+  }
+
+  if(day<1 || day>31){
+    toast("يوم الراتب غير صحيح","bad");
+    return;
+  }
+
+  state.salary = salary;
+  state.salaryDay = day;
+
+  saveState();
+  renderCurrentPage();
+
+  toast("تم تحديث بياناتك","good");
+}
+
+
+/* =========================================================
+   ASSISTANT
+========================================================= */
+
+function openAssistant(){
+
+  showPage("assistant");
+
+  const chat =
+    document.getElementById("chatArea");
+
+  if(!chat.children.length){
+
+    addBotMessage(
+      `هلا 👋 أنا وِزنة.<br><br>
+       أقدر أساعدك تعرف هل تقدر تشتري شيء،
+       أو وين تروح فلوسك، أو أسوي لك خطة ادخار.`
+    );
+
+  }
+
+}
+
+function addBotMessage(text){
+
+  const chat =
+    document.getElementById("chatArea");
+
+  const div =
+    document.createElement("div");
+
+  div.className = "bot-message";
+  div.innerHTML = text;
+
+  chat.appendChild(div);
+
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function addUserMessage(text){
+
+  const chat =
+    document.getElementById("chatArea");
+
+  const div =
+    document.createElement("div");
+
+  div.className = "user-message";
+  div.textContent = text;
+
+  chat.appendChild(div);
+
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function showTyping(){
+
+  const chat =
+    document.getElementById("chatArea");
+
+  const div =
+    document.createElement("div");
+
+  div.className = "bot-message";
+  div.id = "typingMessage";
+
+  div.innerHTML = `
+    <div class="typing">
+      <i></i><i></i><i></i>
+    </div>
+  `;
+
+  chat.appendChild(div);
+
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function removeTyping(){
+
+  document.getElementById("typingMessage")?.remove();
+}
+
+function assistantAnswer(question){
+
+  const q =
+    question.toLowerCase().trim();
+
+  const safe =
+    safeAvailable();
+
+  const saving =
+    availableToSave();
+
+  const expenses =
+    monthExpenses();
+
+  if(
+    q.includes("وين") &&
+    (q.includes("فلوس") || q.includes("صرف"))
+  ){
+
+    if(state.budgets.length===0){
+
+      return `
+        حاليًا ما عندي محافظ كفاية أحلل صرفك.<br><br>
+        أضف محافظ مثل القهوة، السيارة، والترفيه
+        وسأوضح لك وين يروح راتبك.
+      `;
+
+    }
+
+    const sorted =
+      state.budgets
+        .map(b=>({
+          ...b,
+          spent:budgetSpent(b.id)
+        }))
+        .sort((a,b)=>b.spent-a.spent);
+
+    const top = sorted[0];
+
+    return `
+      أكثر محفظة صرفت فيها هذا الشهر هي
+      <strong>${escapeHTML(top.name)}</strong>
+      بمبلغ <strong>${money(top.spent)} ر.س</strong>.<br><br>
+      إجمالي المصروف المسجل:
+      <strong>${money(expenses)} ر.س</strong>.
+    `;
+  }
+
+
+  if(
+    q.includes("كيف") &&
+    (q.includes("وضع") || q.includes("وضعي"))
+  ){
+
+    const score =
+      financialScore();
+
+    return `
+      تقييم وضعك المالي حاليًا
+      <strong>${score.score}/100</strong>.<br><br>
+      ${score.text}<br><br>
+      المتاح الآمن لك:
+      <strong>${money(safe)} ر.س</strong>.
+    `;
+  }
+
+
+  if(
+    q.includes("وفر") ||
+    q.includes("ادخار") ||
+    q.includes("أوفر")
+  ){
+
+    return `
+      المتاح المتوقع للادخار عندك تقريبًا
+      <strong>${money(saving)} ر.س شهريًا</strong>.<br><br>
+      هذا بعد احتساب الالتزامات والأقساط والمحافظ واحتياطي أمان.
+      لو عندك هدف معين، أضفه في "الادخار" وبحسب لك الخطة.
+    `;
+  }
+
+
+  if(
+    q.includes("أقدر") ||
+    q.includes("اشتري") ||
+    q.includes("شراء")
+  ){
+
+    return `
+      أكيد أقدر أحسبها لك 👌<br><br>
+      أرسل لي السعر مثل:
+      <strong>أقدر أشتري سماعة بـ700؟</strong><br><br>
+      وبقول لك إذا 🟢 تقدر،
+      🟡 ممكن لكن انتبه،
+      أو 🔴 ما أنصحك الآن.
+    `;
+  }
+
+
+  const priceMatch =
+    q.match(/(\d+(?:\.\d+)?)\s*(?:ر|ريال|ر\.س)?/);
+
+  if(priceMatch){
+
+    const price =
+      Number(priceMatch[1]);
+
+    const after =
+      safe-price;
+
+    if(after>=0){
+
+      return `
+        🟢 <strong>تقدر، من ناحية وِزنة.</strong><br><br>
+        سعر الشيء:
+        <strong>${money(price)} ر.س</strong><br>
+        المتاح الآمن قبل الشراء:
+        <strong>${money(safe)} ر.س</strong><br>
+        المتبقي الآمن بعده:
+        <strong>${money(after)} ر.س</strong>.
+      `;
+
+    }
+
+    return `
+      🔴 <strong>ما أنصحك الآن.</strong><br><br>
+      سعر الشيء:
+      <strong>${money(price)} ر.س</strong><br>
+      المتاح الآمن:
+      <strong>${money(safe)} ر.س</strong><br><br>
+      الشراء بيخليك تتجاوز المبلغ اللي وِزنة تعتبره آمن.
+    `;
+  }
+
+
+  return `
+    أقدر أساعدك في أربع أشياء بسرعة:<br><br>
+    💳 هل تقدر تشتري شيء معين؟<br>
+    💰 تقييم وضعك المالي<br>
+    📉 تحليل وين تروح فلوسك<br>
+    🎯 خطة ادخار لهدف معين<br><br>
+    جرب تكتب:
+    <strong>أقدر أشتري سماعة بـ700؟</strong>
+  `;
+}
+
+function sendChat(textOverride=null){
+
+  const input =
+    document.getElementById("chatInput");
+
+  const text =
+    textOverride ?? input.value.trim();
+
+  if(!text) return;
+
+  if(!textOverride){
+    input.value="";
+  }
+
+  addUserMessage(text);
+  showTyping();
+
+  setTimeout(()=>{
+
+    removeTyping();
+
+    addBotMessage(
+      assistantAnswer(text)
+    );
+
+  },500);
+}
+
+
+/* =========================================================
+   CONFIRM
+========================================================= */
+
+function openConfirm(title,text,onConfirm){
+
+  openModal(`
+    <div class="modal-head">
+
+      <div class="modal-title">
+        ${escapeHTML(title)}
+      </div>
+
+      <button type="button"
+        class="close-btn"
+        data-action="close-modal">
+        ×
+      </button>
+
+    </div>
+
+    <div style="color:var(--muted);font-size:12px;line-height:1.7">
+      ${escapeHTML(text)}
+    </div>
+
+    <div class="modal-actions">
+
+      <button type="button"
+        class="btn btn-secondary"
+        data-action="close-modal">
+        إلغاء
+      </button>
+
+      <button type="button"
+        class="btn btn-danger"
+        id="confirmAction">
+        تأكيد
+      </button>
+
+    </div>
+  `);
+
+  document
+    .getElementById("confirmAction")
+    ?.addEventListener("click",()=>{
+      closeModal();
+      onConfirm();
+    });
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message,type=""){
+
+  const el =
+    document.getElementById("toast");
+
+  clearTimeout(toastTimer);
+
+  el.textContent = message;
+  el.className = `toast show ${type}`;
+
+  toastTimer =
+    setTimeout(()=>{
+      el.classList.remove("show");
+    },2400);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetData(){
+
+  openConfirm(
+    "حذف كل بياناتك؟",
+    "هذا يمسح الراتب والمحافظ والأقساط والأهداف والعمليات من هذا الجهاز.",
+    ()=>{
+
+      localStorage.removeItem(STORAGE_KEY);
+
+      state =
+        structuredClone(DEFAULT_STATE);
+
+      currentBudgetId = null;
+
+      closeModal();
+
+      document
+        .querySelectorAll(".screen")
+        .forEach(s=>s.classList.remove("active"));
+
+      document
+        .getElementById("onboarding")
+        .classList.add("active");
+
+      renderOnboarding();
+
+      toast("تم حذف البيانات");
+    }
+  );
+}
+
+
+/* =========================================================
+   GLOBAL EVENT DELEGATION
+========================================================= */
+
+document.addEventListener("click",event=>{
+
+  const target =
+    event.target.closest(
+      "[data-action],[data-page],[data-onboard],[data-icon],[data-question]"
+    );
+
+  if(!target) return;
+
+
+  /* NAV */
+
+  if(target.dataset.page){
+
+    showPage(target.dataset.page);
+    return;
+  }
+
+
+  /* ICON */
+
+  if(target.dataset.icon){
+
+    selectedIcon = target.dataset.icon;
+
+    modalContent
+      .querySelectorAll(".icon-choice")
+      .forEach(btn=>{
+        btn.classList.toggle(
+          "selected",
+          btn.dataset.icon===selectedIcon
+        );
+      });
+
+    return;
+  }
+
+
+  /* QUESTIONS */
+
+  if(target.dataset.question){
+
+    openAssistant();
+    sendChat(target.dataset.question);
+    return;
+  }
+
+
+  /* ONBOARD */
+
+  const onboardAction =
+    target.dataset.onboard;
+
+  if(onboardAction==="next"){
+    nextOnboarding();
+    return;
+  }
+
+  if(onboardAction==="back"){
+    backOnboarding();
+    return;
+  }
+
+  if(onboardAction==="finish"){
+    finishOnboarding();
+    return;
+  }
+
+  if(onboardAction==="add-commitment"){
+    openCommitmentForm();
+    return;
+  }
+
+  if(onboardAction==="add-debt"){
+    openDebtForm();
+    return;
+  }
+
+
+  /* ACTIONS */
+
+  const action =
+    target.dataset.action;
+
+  if(!action) return;
+
+
+  if(action==="settings"){
+    showPage("settings");
+    return;
+  }
+
+  if(action==="assistant"){
+    openAssistant();
+    return;
+  }
+
+  if(action==="purchase-check"){
+    openPurchaseCheck();
+    return;
+  }
+
+  if(action==="check-purchase"){
+    checkPurchase();
+    return;
+  }
+
+  if(action==="activity"){
+    showPage("activity");
+    return;
+  }
+
+  if(action==="budgets"){
+    showPage("budgets");
+    return;
+  }
+
+  if(action==="savings"){
+    showPage("savings");
+    return;
+  }
+
+  if(action==="add-budget"){
+    openBudgetForm();
+    return;
+  }
+
+  if(action==="edit-budget"){
+    openBudgetForm(target.dataset.id);
+    return;
+  }
+
+  if(action==="delete-budget"){
+    deleteBudget(target.dataset.id);
+    return;
+  }
+
+  if(action==="open-budget"){
+    openBudgetDetail(target.dataset.id);
+    return;
+  }
+
+  if(action==="back-budget"){
+    currentBudgetId = null;
+    showPage("budgets");
+    return;
+  }
+
+  if(action==="edit-current-budget"){
+
+    if(currentBudgetId){
+      openBudgetForm(currentBudgetId);
+    }
+
+    return;
+  }
+
+  if(action==="add-expense"){
+    addExpense(target.dataset.id);
+    return;
+  }
+
+  if(action==="delete-transaction"){
+    deleteTransaction(target.dataset.id);
+    return;
+  }
+
+  if(action==="add-debt"){
+    openDebtForm();
+    return;
+  }
+
+  if(action==="edit-debt"){
+    openDebtForm(target.dataset.id);
+    return;
+  }
+
+  if(action==="delete-debt"){
+
+    const debt =
+      state.debts.find(x=>x.id===target.dataset.id);
+
+    if(!debt) return;
+
+    openConfirm(
+      "حذف القسط؟",
+      `سيتم حذف "${debt.name}" من قائمة الأقساط.`,
+      ()=>{
+        state.debts =
+          state.debts.filter(
+            x=>x.id!==target.dataset.id
+          );
+
+        saveState();
+        renderCurrentPage();
+
+        toast("تم حذف القسط");
+      }
+    );
+
+    return;
+  }
+
+  if(action==="pay-debt"){
+    payDebt(target.dataset.id);
+    return;
+  }
+
+  if(action==="confirm-pay-debt"){
+    confirmPayDebt(target.dataset.id);
+    return;
+  }
+
+  if(action==="add-saving"){
+    openSavingForm();
+    return;
+  }
+
+  if(action==="edit-saving"){
+    openSavingForm(target.dataset.id);
+    return;
+  }
+
+  if(action==="open-saving"){
+    openSavingForm(target.dataset.id);
+    return;
+  }
+
+  if(action==="delete-saving"){
+    deleteSaving(target.dataset.id);
+    return;
+  }
+
+  if(action==="save-settings"){
+    saveSettings();
+    return;
+  }
+
+  if(action==="reset-data"){
+    resetData();
+    return;
+  }
+
+  if(action==="close-modal"){
+    closeModal();
+    return;
+  }
+
+  if(action==="save-commitment"){
+    saveCommitment();
+    return;
+  }
+
+  if(action==="save-debt"){
+    saveDebt();
+    return;
+  }
+
+  if(action==="save-budget"){
+    saveBudget();
+    return;
+  }
+
+  if(action==="save-expense"){
+    saveExpense(target.dataset.id);
+    return;
+  }
+
+  if(action==="save-saving"){
+    saveSaving();
+    return;
+  }
+
+  if(action==="back-more"){
+    showPage("more");
+    return;
+  }
+
+  if(action==="delete-commitment"){
+
+    const item =
+      state.commitments.find(
+        x=>x.id===target.dataset.id
+      );
+
+    if(!item) return;
+
+    state.commitments =
+      state.commitments.filter(
+        x=>x.id!==target.dataset.id
+      );
+
+    saveState();
+
+    if(state.onboardStep===1){
+      renderOnboarding();
+    }
+
+    renderCurrentPage();
+
+    toast("تم حذف الالتزام");
+    return;
+  }
+
+});
+
+
+/* =========================================================
+   CHAT EVENTS
+========================================================= */
+
+document
+  .getElementById("chatInput")
+  ?.addEventListener("keydown",event=>{
+
+    if(event.key==="Enter"){
+      event.preventDefault();
+      sendChat();
+    }
+
+  });
+
+
+/* =========================================================
+   START
+========================================================= */
+
+function start(){
+
+  if(!state.onboarded){
+
+    document
+      .getElementById("onboarding")
+      .classList.add("active");
+
+    renderOnboarding();
+
+  }else{
+
+    document
+      .getElementById("onboarding")
+      .classList.remove("active");
+
+    showPage(state.currentPage || "home");
+
+  }
+
+}
+
+start();
+
+</script>
+
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
+</body>
+</html>
